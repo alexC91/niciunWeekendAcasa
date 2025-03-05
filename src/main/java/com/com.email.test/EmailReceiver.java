@@ -1,7 +1,8 @@
-package com.turism.email;
+@ -0,0 +1,53 @@
+        package com.turism.email;
 
 import jakarta.mail.*;
-import jakarta.mail.internet.MimeMultipart;
+        import jakarta.mail.internet.MimeMultipart;
 
 import java.util.Properties;
 

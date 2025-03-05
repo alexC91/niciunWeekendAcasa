@@ -1,9 +1,10 @@
-package com.turism.email;
+@ -0,0 +1,39 @@
+        package com.turism.email;
 
 import jakarta.mail.*;
-import jakarta.mail.internet.*;
+        import jakarta.mail.internet.*;
 
-import java.util.Properties;
+        import java.util.Properties;
 
 public class EmailSender {
     private static final String USERNAME = "adresa_ta@gmail.com";
