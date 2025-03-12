@@ -27,4 +27,12 @@ public class GreetingController {
     public String contact() {
         return "contact.html";
     }
+    @GetMapping("/login")
+    public String login() {
+        return "login.html";
+    }
+    @GetMapping("/register")
+    public String register() {
+        return "signup.html";
+    }
 }
