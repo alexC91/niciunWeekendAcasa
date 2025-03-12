@@ -1,0 +1,134 @@
+/* Stil antet */
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px 50px;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+    background: linear-gradient(-70deg, #f4eec4e6 36%, #D7D1B7 37%);
+}
+
+.login-modal {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Asigură centrare pe verticală */
+    padding: 20px;
+    background-color: #f9f9f9; /* Fundal deschis pentru contrast */
+}
+
+.login-modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px; /* Border radius mai vizibil */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Box shadow pentru efect de card */
+    width: 400px;
+    max-width: 90%;
+}
+
+.tab-menu {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.tab-menu button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tab-menu button.active {
+    border-bottom: 2px solid black;
+}
+
+.form-content {
+    display: none;
+}
+
+.form-content.active {
+    display: block;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-button,
+.register-button {
+    padding: 12px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-login img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.social-login button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+}
+
+.separator {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    color: #777;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    height: 1px;
+    width: 40%;
+    background: #ccc;
+    position: absolute;
+    top: 50%;
+    z-index: 0;
+}
+
+.separator::before {
+    left: 0;
+}
+
+.separator::after {
+    right: 0;
+}
+
+.separator span {
+    background-color: white;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+}
