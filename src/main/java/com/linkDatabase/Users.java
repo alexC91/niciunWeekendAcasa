@@ -1,5 +1,8 @@
 package com.linkDatabase;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+
 import java.time.LocalDateTime;
 
 @Entity
