@@ -1,10 +1,10 @@
 package com.linkDatabase;
-//import jakarta.persistence.Column;
-//import jakarta.persistence.Entity;
-//import java.time.LocalDateTime;
-//@Entity
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import java.time.LocalDateTime;
+@Entity
 public class Reviews {
-    /*@Column(nullable=false, unique=true)
+    @Column(nullable=false, unique=true)
     private Integer id;
 
     @Column(nullable=false, unique=true)
@@ -68,5 +68,5 @@ public class Reviews {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }*/
+    }
 }
