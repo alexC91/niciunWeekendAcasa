@@ -1,5 +1,6 @@
 package com.linkDatabase;
 
+<<<<<<< Updated upstream
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -10,6 +11,16 @@ import java.time.LocalDateTime;
 @Table(name="app_users")
 public class Users {
     @Column(name="ID", nullable=false, unique=true)
+=======
+//import jakarta.persistence.Column;
+//import jakarta.persistence.Entity;
+
+import java.time.LocalDateTime;
+
+//@Entity
+public class Users {
+   /* @Column(nullable=false, unique=true)
+>>>>>>> Stashed changes
     private Integer id;
 
     @Column(name="last_name", nullable=false)
@@ -106,5 +117,5 @@ public class Users {
 
     public void setRole(String role) {
         this.role = role;
-    }
+    }*/
 }
