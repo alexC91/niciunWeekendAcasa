@@ -1,10 +1,10 @@
 package com.linkDatabase;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+//import jakarta.persistence.Column;
+//import jakarta.persistence.Entity;
 
-@Entity
+//@Entity
 public class Attractions {
-    @Column(nullable=false, unique=true)
+    /*@Column(nullable=false, unique=true)
     private Integer id;
 
     @Column(nullable=false)
@@ -69,4 +69,4 @@ public class Attractions {
     public void setNumberOfRatings(Integer numberOfRatings) {
         this.numberOfRatings = numberOfRatings;
     }
-}
+*/}

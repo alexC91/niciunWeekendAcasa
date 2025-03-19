@@ -1,56 +1,70 @@
 package com.linkDatabase;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+//import jakarta.persistence.Column;
+//import jakarta.persistence.Entity;
+
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="app_users")
+@Table(name = "app_roles")
 public class Users {
-    @Column(name="ID", nullable=false, unique=true)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "r_name")
+    private String rName;
+
+    @Column(name = "r_description")
+    private String rDescription;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getrName() {
+        return rName;
+    }
+
+    public void setrName(String rName) {
+        this.rName = rName;
+    }
+
+    public String getrDescription() {
+        return rDescription;
+    }
+
+    public void setrDescription(String rDescription) {
+        this.rDescription = rDescription;
+    }
+
+    /*@Column(nullable=false, unique=true)
     private Integer id;
 
-    @Column(name="last_name", nullable=false)
-    private String lastName;
-
-    @Column(name="first_name", nullable=false)
-    private String firstName;
-
-    @Column(name="email", nullable=false)
+    @Column(nullable=false)
     private String email;
 
-    @Column(name="pass", nullable=false)
+    @Column(nullable=false)
+    private String firstName;
+
+    @Column(nullable=false)
+    private String lastName;
+
+    @Column(nullable=false)
     private String password;
 
-    @Column(name="is_activated")
-    private Byte isActivated;
-
-    @Column(name="is_disabled")
-    private Byte isDisabled;
-
-    @Column(name="created_at")
+    @Column
     private LocalDateTime createdAt;
 
     @Column
     private String role;
-
-    public Byte getIsDisabled() {
-        return isDisabled;
-    }
-
-    public void setIsDisabled(Byte isDisabled) {
-        this.isDisabled = isDisabled;
-    }
-
-    public Byte getIsActivated() {
-        return isActivated;
-    }
-
-    public void setIsActivated(Byte isActivated) {
-        this.isActivated = isActivated;
-    }
 
     public Integer getId() {
         return id;
@@ -106,5 +120,5 @@ public class Users {
 
     public void setRole(String role) {
         this.role = role;
-    }
+    }*/
 }
