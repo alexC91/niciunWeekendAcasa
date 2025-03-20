@@ -1,0 +1,16 @@
+#OS junk files
+/.DS_Store
+
+#Maven wrappers
+/mvnw
+/mvnw.cmd
+	
+#IDE files
+/.idea
+/.vscode
+
+#GIT files
+/.git
+
+#Test
+/test.txt
