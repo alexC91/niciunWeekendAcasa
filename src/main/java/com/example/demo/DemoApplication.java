@@ -40,7 +40,7 @@ public class DemoApplication {
             String subject = "Test 123 Email from Spring Boot via Gmail SMTP";
             String body = "Hello 123! This is a test email sent using Gmail SMTP.";
 
-            Email.sendEmail(recipient, subject, body);
+            if (false) Email.sendEmail(recipient, subject, body);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
