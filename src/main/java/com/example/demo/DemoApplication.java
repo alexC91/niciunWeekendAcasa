@@ -34,6 +34,13 @@ public class DemoApplication {
 
 			UserService someService = context.getBean(UserService.class);
 			someService.doMagic();
+
+            // Send a test email
+            String recipient = "gigel@test.com"; // Replace with a real email
+            String subject = "Test 123 Email from Spring Boot via Gmail SMTP";
+            String body = "Hello 123! This is a test email sent using Gmail SMTP.";
+
+            Email.sendEmail(recipient, subject, body);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
