@@ -1,5 +1,6 @@
 package com.services;
 
+import com.linkDatabase.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,8 @@ public class UserService {
     private UserRepository userRepository;
 
     public void doMagic() {
-        userRepository.findAll();
+        for (Users u : userRepository.findAll()) {
+            System.out.println(u.getId());
+        }
     }
 }

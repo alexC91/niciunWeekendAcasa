@@ -10,6 +10,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
+import java.util.List;
+import java.util.Map;
+
 @SpringBootApplication(scanBasePackages = "com.services")
 @EnableJpaRepositories(basePackages = "com.services")
 @EnableDiscoveryClient
@@ -23,7 +26,11 @@ public class DemoApplication {
 
 		try {
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(getConnection(new SimpleDriverDataSource()));
-			jdbcTemplate.queryForList("SELECT 13");
+			for (Map<String, Object> s : jdbcTemplate.queryForList("SELECT 13")) {
+				for (String x : s.keySet()) {
+					System.out.println(x + " " + s.get(x));
+				}
+			}
 
 			UserService someService = context.getBean(UserService.class);
 			someService.doMagic();
@@ -34,7 +41,7 @@ public class DemoApplication {
 
 	public static SimpleDriverDataSource getConnection(SimpleDriverDataSource dataSource) throws ClassNotFoundException {
 		dataSource.setDriverClass(com.microsoft.sqlserver.jdbc.SQLServerDriver.class);
-		dataSource.setUrl("jdbc:sqlserver://localhost:1433; databaseName=niciunWeekendAcasa;trustServerCertificate=false;encrypt=false");
+		dataSource.setUrl("jdbc:sqlserver://localhost:52122; databaseName=niciunWeekendAcasa;trustServerCertificate=false;encrypt=false");
 		dataSource.setUsername("root");
 		dataSource.setPassword("admin");
 		return dataSource;
