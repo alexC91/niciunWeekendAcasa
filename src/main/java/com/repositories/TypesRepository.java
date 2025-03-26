@@ -1,9 +1,9 @@
-package com.services;
+package com.repositories;
 
-import com.linkDatabase.Users;
+import com.linkDatabase.Types;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, Long> {
+public interface TypesRepository extends JpaRepository<Types, Long> {
 }
