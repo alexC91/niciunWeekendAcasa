@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication(scanBasePackages = "com.services")
-@EnableJpaRepositories(basePackages = "com.services")
+@EnableJpaRepositories(basePackages = "com.repositories")
 @EnableDiscoveryClient
 @EntityScan(basePackages = "com.linkDatabase")
 public class DemoApplication {
