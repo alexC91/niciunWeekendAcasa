@@ -8,7 +8,7 @@ public class GreetingController {
 
     @GetMapping("/")
     public String home() {
-        return "index";
+        return "/templates/index.html";
     }
 
     @GetMapping("/about")
@@ -18,7 +18,7 @@ public class GreetingController {
 
     @GetMapping("/services")
     public String services() {
-        return "services.html";
+        return "/templates/services.html";
     }
 
     @GetMapping("/blog")

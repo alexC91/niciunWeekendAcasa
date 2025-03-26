@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication(scanBasePackages = "com.services")
-@EnableJpaRepositories(basePackages = "com.services")
+@EnableJpaRepositories(basePackages = "com.repositories")
 @EnableDiscoveryClient
 @EntityScan(basePackages = "com.linkDatabase")
 public class DemoApplication {
@@ -47,10 +47,10 @@ public class DemoApplication {
 	}
 
 	public static SimpleDriverDataSource getConnection(SimpleDriverDataSource dataSource) throws ClassNotFoundException {
-		dataSource.setDriverClass(com.microsoft.sqlserver.jdbc.SQLServerDriver.class);
-		dataSource.setUrl("jdbc:sqlserver://localhost:52122; databaseName=niciunWeekendAcasa;trustServerCertificate=false;encrypt=false");
-		dataSource.setUsername("root");
-		dataSource.setPassword("admin");
+		dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
+		dataSource.setUrl("jdbc:mysql://localhost:3306/proiect_java?useSSL=false&serverTimezone=UTC");
+		dataSource.setUsername("daniel");
+		dataSource.setPassword("1234");
 		return dataSource;
 	}
 }
