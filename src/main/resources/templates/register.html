@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Register</title>
+    </head>
+    <body>
+
+    <form method="post" th:object="${registerDto}">
+
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Account Created Successfully!</strong>
+            <a class="ms-2" href="/login">Login</a>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+
+        <input type="hidden" th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}"/>
+
+        <label for="firstName">First Name</label>
+        <input id="firstName" class="form-control" th:field="${registerDto.firstName}" />
+        <p th:if="${#fields.hasErrors('firstName')}"
+           th:errorclass="text-danger"
+           th:errors="${registerDto.firstName}"></p>
+        </br>
+
+        <label for="lastName">Last Name</label>
+        <input id="lastName" class="form-control" th:field="${registerDto.lastName}" />
+        <p th:if="${#fields.hasErrors('lastName')}"
+           th:errorclass="text-danger"
+           th:errors="${registerDto.lastName}"></p>
+        </br>
+
+        <label for="email">Email</label>
+        <input id="email" class="form-control" th:field="${registerDto.email}" />
+        <p th:if="${#fields.hasErrors('email')}"
+           th:errorclass="text-danger"
+           th:errors="${registerDto.email}"></p>
+        </br>
+
+        <label for="phone">Phone</label>
+        <input id="phone" class="form-control" th:field="${registerDto.phone}" />
+        <p th:if="${#fields.hasErrors('phone')}"
+           th:errorclass="text-danger"
+           th:errors="${registerDto.phone}"></p>
+        </br>
+
+        <label for="Password">Password*</label>
+            <input id="Password" class="form-control" type="password" th:field="${registerDto.password}" />
+            <p th:if="${#fields.hasErrors('password')}"
+               th:errorclass="text-danger"
+               th:errors="${registerDto.password}"></p>
+        </br>
+
+        <label for="confirmPassword">Confirm Password*</label>
+            <input id="confirmPassword"  class="form-control" type="password" th:field="${registerDto.confirmPassword}" />
+            <p th:if="${#fields.hasErrors('confirmPassword')}"
+               th:errorclass="text-danger"
+               th:errors="${registerDto.confirmPassword}"></p>
+
+        <button type="submit">Submit</button>
+        <a herf="/">Cancel</a>
+    </form>
+
+    </body>
