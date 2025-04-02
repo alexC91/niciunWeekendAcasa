@@ -1,43 +1,57 @@
 package com.example.demo;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestController
+@Controller
 public class GreetingController {
 
     @GetMapping("/")
-    public String home() {
-        return "/templates/index.html";
+    public String home(Model model) {
+        model.addAttribute("activePage", "home");
+        return "index";
     }
 
     @GetMapping("/about")
-    public String about() {
-        return "about.html";
+    public String about(Model model) {
+        model.addAttribute("activePage", "about");
+        return "about";
     }
 
     @GetMapping("/services")
-    public String services() {
-        return "/templates/services.html";
+    public String services(Model model) {
+        model.addAttribute("activePage", "services");
+        return "services";
     }
 
     @GetMapping("/blog")
-    public String blog() {
-        return "blog.html";
+    public String blog(Model model) {
+        model.addAttribute("activePage", "blog");
+        return "blog";
     }
 
     @GetMapping("/contact")
-    public String contact() {
-        return "contact.html";
+    public String contact(Model model) {
+        model.addAttribute("activePage", "contact");
+        return "contact";
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "login.html";
+    public String login(Model model) {
+        model.addAttribute("activePage", "login");
+        return "login";
     }
 
     @GetMapping("/register")
-    public String register() {
-        return "signup.html";
+    public String register(Model model) {
+        model.addAttribute("activePage", "register");
+        return "signup";
     }
+   @GetMapping("/map")
+   public String map(Model model) {
+       model.addAttribute("activePage", "map");
+       return "map_test";
+   }
 }

@@ -66,14 +66,47 @@
 
     function getCurrentLocation() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-                const userLat = position.coords.latitude;
-                const userLng = position.coords.longitude;
-                if (marker) marker.remove();
-                marker = L.marker([userLat, userLng]).addTo(map)
-                    .bindPopup('Locația ta').openPopup();
-                map.setView([userLat, userLng], 13);
-            }, () => alert('Localizarea nu este permisă!'));
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+                    if (marker) marker.remove();
+                    marker = L.marker([userLat, userLng]).addTo(map)
+                        .bindPopup('Locația ta').openPopup();
+                    map.setView([userLat, userLng], 13);
+                },
+                error => {
+                    // Improved error handling
+                    let errorMessage;
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = "Permisiunea de localizare a fost refuzată. Vă rugăm să activați permisiunile de localizare în setările browserului.";
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = "Informațiile despre localizare nu sunt disponibile.";
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = "Cererea de localizare a expirat.";
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            errorMessage = "A apărut o eroare necunoscută.";
+                            break;
+                    }
+                    alert(errorMessage);
+
+                    // Fallback to a default location if geolocation fails
+                    const defaultLocation = [44.4268, 26.1025]; // Bucharest
+                    if (marker) marker.remove();
+                    marker = L.marker(defaultLocation).addTo(map)
+                        .bindPopup('Locație implicită - București').openPopup();
+                    map.setView(defaultLocation, 13);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000, // 10 seconds
+                    maximumAge: 0 // Don't use cached position
+                }
+            );
         } else {
             alert("Geolocația nu este suportată de browser.");
         }

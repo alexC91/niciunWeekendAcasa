@@ -11,7 +11,7 @@ public class GeoUnits {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "name")
     @NotNull
@@ -21,10 +21,10 @@ public class GeoUnits {
     @NotNull
     private Integer geoAreaId;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
