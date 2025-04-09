@@ -40,6 +40,19 @@ public class RegistrationController {
         newUser.setCreatedAt(new Date());
 
         userRepository.save(newUser);
-        return "redirect:/login?registered";
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login1")
+    public String loginUser(@RequestParam String email,
+                            @RequestParam String password) {
+        Users user = userRepository.findByEmail(email).get();
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            // User is authenticated
+            return "redirect:/";
+        } else {
+            // Authentication failed
+            return "redirect:/login?error";
+        }
     }
 }
