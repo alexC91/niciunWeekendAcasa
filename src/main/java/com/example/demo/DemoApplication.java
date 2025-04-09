@@ -13,7 +13,12 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import java.util.List;
 import java.util.Map;
 
-@SpringBootApplication(scanBasePackages = "com.services")
+@SpringBootApplication(scanBasePackages = {"com.services",
+		"com.example.demo",
+		"com.linkDatabase",
+		"com.repositories",
+		"com.services"
+})
 @EnableJpaRepositories(basePackages = "com.repositories")
 @EnableDiscoveryClient
 @EntityScan(basePackages = "com.linkDatabase")
@@ -48,7 +53,8 @@ public class DemoApplication {
 
 	public static SimpleDriverDataSource getConnection(SimpleDriverDataSource dataSource) throws ClassNotFoundException {
 		dataSource.setDriverClass(com.microsoft.sqlserver.jdbc.SQLServerDriver.class);
-		dataSource.setUrl("jdbc:sqlserver://localhost:52122; databaseName=niciunWeekendAcasa;trustServerCertificate=false;encrypt=false");
+		//A se scimba  "jdbc:sqlserver://localhost:1433;  cu "jdbc:sqlserver://localhost:52122;
+		dataSource.setUrl("jdbc:sqlserver://localhost:1433; databaseName=niciunWeekendAcasa;trustServerCertificate=false;encrypt=false");
 		dataSource.setUsername("root");
 		dataSource.setPassword("admin");
 		return dataSource;

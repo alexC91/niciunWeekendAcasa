@@ -18,7 +18,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests( auth -> auth
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/about").permitAll()
+                        .requestMatchers("/about").authenticated()
                         .requestMatchers("/blog").permitAll()
                         .requestMatchers("/footer").permitAll()
                         .requestMatchers("/head").permitAll()
@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/logout").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/error/**").permitAll()
 
                         .anyRequest().authenticated()
                 )
@@ -46,6 +47,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
+
         return new BCryptPasswordEncoder();
     }
 }

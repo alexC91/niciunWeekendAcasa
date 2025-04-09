@@ -1,43 +1,39 @@
 package com.example.demo;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class GreetingController {
 
     @GetMapping("/")
     public String home() {
-        return "index.html";
+        return "index";
     }
 
     @GetMapping("/about")
     public String about() {
-        return "about.html";
+        return "about";
     }
 
     @GetMapping("/services")
     public String services() {
-        return "services.html";
+        return "services";
     }
 
     @GetMapping("/blog")
     public String blog() {
-        return "blog.html";
+        return "blog";
     }
 
     @GetMapping("/contact")
     public String contact() {
-        return "contact.html";
+        return "contact";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "login.html";
+        return "login";
     }
 
-    @GetMapping("/register")
-    public String register() {
-        return "signup.html";
-    }
 }
