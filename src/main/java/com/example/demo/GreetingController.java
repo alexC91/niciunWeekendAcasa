@@ -36,4 +36,8 @@ public class GreetingController {
         return "login";
     }
 
+    @GetMapping("/register_greeting")
+    public String register() {
+        return "signup.html";
+    }
 }

@@ -30,7 +30,7 @@ public class AccountController {
         return "register";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register_account")
     public String register(
             Model model,
             @Valid @ModelAttribute RegisterDto registerDto,
