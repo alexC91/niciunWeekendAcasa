@@ -41,7 +41,7 @@ public class DemoApplication {
 			someService.doMagic();
 
             // Send a test email
-            String recipient = "gigel@test.com"; // Replace with a real email
+            String recipient = "niciunweekendacasa1@gmail.com"; // Replace with a real email
             String subject = "Test 123 Email from Spring Boot via Gmail SMTP";
             String body = "Hello 123! This is a test email sent using Gmail SMTP.";
 

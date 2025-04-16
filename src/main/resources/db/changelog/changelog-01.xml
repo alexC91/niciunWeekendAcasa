@@ -1,17 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <!--<changeSet id="1" author="Gaita">
-        <createTable tableName="utilizatori">
-            <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="nume" type="varchar(255)"/>
-            <column name="email" type="varchar(255)"/>
-        </createTable>
-    </changeSet>--> <!--DEMO, NU se executa-->
+    <!-- Insert demo users -->
+    <changeSet id="insert-users-1" author="tu">
+        <insert tableName="app_users">
+            <column name="last_name" value="Popescu"/>
+            <column name="first_name" value="Ana"/>
+            <column name="email" value="ana.popescu@example.com"/>
+            <column name="pass" value="parola123"/>
+            <column name="is_activated" valueNumeric="1"/>
+            <column name="is_disabled" valueNumeric="0"/>
+            <column name="created_at" valueDate="2024-12-01"/>
+        </insert>
+
+        <insert tableName="app_users">
+            <column name="last_name" value="Ionescu"/>
+            <column name="first_name" value="Mihai"/>
+            <column name="email" value="mihai.ionescu@example.com"/>
+            <column name="pass" value="securepass456"/>
+            <column name="is_activated" valueNumeric="1"/>
+            <column name="is_disabled" valueNumeric="0"/>
+            <column name="created_at" valueDate="2025-01-15"/>
+        </insert>
+
+        <insert tableName="app_users">
+            <column name="last_name" value="Stan"/>
+            <column name="first_name" value="Laura"/>
+            <column name="email" value="laura.stan@example.com"/>
+            <column name="pass" value="mypassword789"/>
+            <column name="is_activated" valueNumeric="0"/>
+            <column name="is_disabled" valueNumeric="0"/>
+            <column name="created_at" valueDate="2025-03-10"/>
+        </insert>
+    </changeSet>
 
 </databaseChangeLog>
