@@ -1,5 +1,5 @@
 <!-- Navigation -->
-<nav class="site-nav mt-3">
+<nav class="site-nav mt-3" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="container">
         <div class="site-navigation">
             <div class="row">
@@ -42,10 +42,21 @@
                         <li th:classappend="${activePage == 'contact'} ? 'active'" class="cta-button">
                             <a th:href="@{/contact}">Contact Us</a>
                         </li>
-                        <li th:classappend="${activePage == 'login'} ? 'active'" class="cta-button">
+
+                        <!-- Show Login only if NOT authenticated -->
+                        <li sec:authorize="!isAuthenticated()" th:classappend="${activePage == 'login'} ? 'active'" class="cta-button">
                             <a th:href="@{/login}">Login</a>
                         </li>
+
+                        <!-- Show Logout and Username if authenticated -->
+                        <li sec:authorize="isAuthenticated()" class="cta-button">
+                            <a th:href="@{/logout}">Logout</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()" class="cta-button">
+                            <span>Welcome, <span sec:authentication="name"></span></span>
+                        </li>
                     </ul>
+
                     <a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"
                        data-toggle="collapse" data-target="#main-navbar">
                         <span></span>
