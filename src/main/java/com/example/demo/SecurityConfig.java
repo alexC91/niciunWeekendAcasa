@@ -29,6 +29,7 @@ public class SecurityConfig {
                         .requestMatchers("/services").permitAll()
                         .requestMatchers("/single").permitAll()
                         .requestMatchers("/contact").permitAll()
+                        .requestMatchers("/sendContactEmail").permitAll()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/login").permitAll()

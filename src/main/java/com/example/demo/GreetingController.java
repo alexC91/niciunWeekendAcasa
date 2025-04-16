@@ -26,7 +26,7 @@ public class GreetingController {
         return "blog";
     }
 
-    @GetMapping("/contact")
+    @GetMapping("/contact_greeting")
     public String contact() {
         return "contact";
     }
