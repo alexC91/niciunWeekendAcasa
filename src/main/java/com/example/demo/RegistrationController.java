@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@RestController
+@Controller
 public class RegistrationController {
 
     private final UserRepository userRepository;

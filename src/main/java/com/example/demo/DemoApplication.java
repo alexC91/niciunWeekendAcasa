@@ -33,7 +33,7 @@ public class DemoApplication {
 			testDatabaseConnection();
 
 			// 2. Verify UserService bean
-//			testUserService(context);
+			//testUserService(context);
 
 			// 3. System readiness check
 			System.out.println("\n=== System Status ===");
