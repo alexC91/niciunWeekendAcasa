@@ -22,10 +22,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf(csrf -> csrf.disable()) // Updated to use the lambda syntax
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/","/register", "/register1", "/login", "/css/**", "/js/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/", "/register", "/register1", "/login", "/css/**", "/js/**", "/sendContactEmail").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

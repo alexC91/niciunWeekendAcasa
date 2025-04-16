@@ -32,7 +32,7 @@ public class GreetingController {
         return "blog";
     }
 
-    @GetMapping("/contact")
+    @GetMapping("/contact_greeting")
     public String contact(Model model) {
         model.addAttribute("activePage", "contact");
         return "contact";
