@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="1" author="Gaita">
+    <!--<changeSet id="1" author="Gaita">
         <createTable tableName="utilizatori">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -12,6 +12,6 @@
             <column name="nume" type="varchar(255)"/>
             <column name="email" type="varchar(255)"/>
         </createTable>
-    </changeSet>
+    </changeSet>--> <!--DEMO, NU se executa-->
 
 </databaseChangeLog>
