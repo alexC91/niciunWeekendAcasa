@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Orașelor</title>
+</head>
+<body>
+<h1>Lista Orașelor</h1>
+<ul>
+    <li th:each="city : ${cities}">
+        <strong th:text="${city.name}">Nume Oraș</strong> -
+        <!-- Afișează numele județului din relație -->
+        <span th:text="${city.county.name}">Nume Județ</span>
+    </li>
+</ul>
+</body>
+</html>

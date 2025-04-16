@@ -45,7 +45,7 @@ public class AccountController {
         Users appUser = repo.findByEmail(registerDto.getEmail());
         if (appUser != null) {
             result.addError(
-                    new FieldError("registerDto", "email", "Email address is already used")
+                    new FieldError("registerDto", "email", "Something happened")
             );
         }
 

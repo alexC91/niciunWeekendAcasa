@@ -18,7 +18,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests( auth -> auth
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/about").authenticated()
+                        .requestMatchers("/about").permitAll()
                         .requestMatchers("/blog").permitAll()
                         .requestMatchers("/footer").permitAll()
                         .requestMatchers("/head").permitAll()
@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/logout").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/error/**").permitAll()
+                        .requestMatchers("/cities").permitAll()  // aceasta este o pagina de test
 
                         .anyRequest().authenticated()
                 )
