@@ -4253,6 +4253,7 @@ textarea.form-control-lg {
   display: -ms-flexbox;
   display: flex;
   padding-left: 0;
+  justify-content: center;
   list-style: none; }
 
 .page-link {
@@ -10306,7 +10307,7 @@ textarea {
     text-decoration: none; }
 
 .custom-pagination {
-  display: block; }
+  /* display: block; */ }
   .custom-pagination li {
     display: inline-block; }
     .custom-pagination li a {
