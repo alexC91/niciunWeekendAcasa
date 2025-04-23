@@ -2,27 +2,31 @@ package com.example.demo;
 
 import com.linkDatabase.Users;
 import com.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Controller
 public class RegistrationController {
-
+    public String token;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+    @Autowired
+    private JwtUtil jwtUtil;
     public RegistrationController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
     @PostMapping("/register1")
     public String registerUser(
             @RequestParam String firstName,
@@ -49,6 +53,7 @@ public class RegistrationController {
         Users user = userRepository.findByEmail(email).get();
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             // User is authenticated
+            token = jwtUtil.generateToken(email);
             return "redirect:/";
         } else {
             // Authentication failed
