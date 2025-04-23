@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+<changeSet id="2025.04.23.6" author="Theodora">
+        <sql>
+            DELETE FROM geo_units;
+            INSERT INTO geo_units (name)
+            VALUES
+            ('Muntii Dobrogei'),
+	        ('Delta Dunarii'),
+            ('Podisul Dobrogei'),
+            ('Campia Romana'),
+            ('Podisul Moldovei'),
+            ('Carpatii Orientali'),
+            ('Carpatii Meridionali'),
+            ('Carpatii Occidentali'),
+            ('Subcarpatii'),
+            ('Podisul Getic'),
+            ('Campia de Vest'),
+            ('Podisul Transilvaniei'),
+            ('Dealurile de Vest');
+        </sql>
+</changeSet>      
+</databaseChangeLog>

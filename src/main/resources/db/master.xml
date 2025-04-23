@@ -6,4 +6,9 @@
 
     <include file="changelog/changelog-01.xml" relativeToChangelogFile="true"/>
 
+    <include file="changelog/changelog-04.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/changelog-06.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/changelog-08.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/changelog-10.xml" relativeToChangelogFile="true"/>
+    .xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
