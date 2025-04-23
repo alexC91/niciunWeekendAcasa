@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns= "http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2025.04.23.3" author="Andrei">
+        <sql>
+            DELETE FROM statuses;
+            INSERT INTO statuses (name)
+            VALUES
+            ('Excelenta'),
+            ('Foarte buna'),
+            ('Buna'),
+            ('Proasta'),
+            ('Foarte Proasta'),
+            ('Colaps'),
+            ('Ruina'),
+            ('Urme');
+        </sql>
+    </changeSet>
+</databaseChangeLog>
