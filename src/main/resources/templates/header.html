@@ -4,7 +4,7 @@
         <div class="site-navigation">
             <div class="row">
                 <div class="col-6 col-lg-3">
-                    <a th:href="@{/}" class="logo m-0 float-start">Sterial</a>
+                    <a th:href="@{/}" class="logo m-0 float-start">NiciunWeekendAcasa</a>
                 </div>
                 <div class="col-lg-6 d-none d-lg-inline-block text-center nav-center-wrap">
                     <ul class="js-clone-nav text-center site-menu p-0 m-0">
@@ -14,7 +14,13 @@
                         <li th:classappend="${activePage == 'about'} ? 'active'">
                             <a th:href="@{/about}">About us</a>
                         </li>
-                        <li class="has-children" th:classappend="${activePage == 'dropdown'} ? 'active'">
+                        <li th:classappend="${activePage == 'news'} ? 'active'">
+                            <a th:href="@{/news}">News</a>
+                        </li>
+                        <li th:classappend="${activePage == 'map'} ? 'active'">
+                            <a th:href="@{/map}">Map</a>
+                        </li>
+                        <!--<li class="has-children" th:classappend="${activePage == 'dropdown'} ? 'active'">
                             <a href="#">Dropdown</a>
                             <ul class="dropdown">
                                 <li><a href="#">Menu One</a></li>
@@ -28,7 +34,7 @@
                                 </li>
                                 <li><a href="#">Menu Three</a></li>
                             </ul>
-                        </li>
+                        </li>-->
                         <li th:classappend="${activePage == 'services'} ? 'active'">
                             <a th:href="@{/services}">Services</a>
                         </li>
