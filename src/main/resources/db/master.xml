@@ -5,15 +5,15 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <include file="changelog/changelog-01.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/changelog-02.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/changelog-03.xml" relativeToChangelogFile="true"/>
+<!--    <include file="changelog/changelog-02.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="changelog/changelog-03.xml" relativeToChangelogFile="true"/>-->
     <include file="changelog/changelog-04.xml" relativeToChangelogFile="true"/>
     <include file="changelog/changelog-05.xml" relativeToChangelogFile="true"/>
     <include file="changelog/changelog-06.xml" relativeToChangelogFile="true"/>
     <include file="changelog/changelog-07.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/changelog-08.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/changelog-09.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/changelog-10.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/changelog-11.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/changelog-13.xml" relativeToChangelogFile="true"/>
+<!--    <include file="changelog/changelog-08.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="changelog/changelog-09.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="changelog/changelog-10.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="changelog/changelog-11.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="changelog/changelog-13.xml" relativeToChangelogFile="true"/>-->
 </databaseChangeLog>

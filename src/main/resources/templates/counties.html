@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Județelor</title>
+</head>
+<body>
+<h1>Lista Județelor</h1>
+<ul>
+    <li th:each="counties : ${counties}">
+        <span th:text="${counties.name}">Nume Județ</span>
+    </li>
+</ul>
+</body>
+</html>
