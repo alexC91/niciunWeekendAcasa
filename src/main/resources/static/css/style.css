@@ -563,7 +563,7 @@ progress {
     margin-top: var(--bs-gutter-y); }
 
 .col {
-  -webkit-box-flex: 1;
+  -webkit-box-flex: 1;z
   -ms-flex: 1 0 0%;
   flex: 1 0 0%; }
 

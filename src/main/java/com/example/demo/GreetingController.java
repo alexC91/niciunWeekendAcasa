@@ -54,4 +54,19 @@ public class GreetingController {
        model.addAttribute("activePage", "map");
        return "map_test";
    }
+
+    @GetMapping("/news")
+    public String news(Model model) {
+        model.addAttribute("activePage", "news");
+        return "news";}
+
+    @GetMapping("/privacy")
+    public String privacy(Model model) {
+        model.addAttribute("activePage", "privacy");
+        return "privacy";}
+
+    @GetMapping("/terms")
+    public String terms(Model model) {
+        model.addAttribute("activePage", "terms");
+        return "terms";}
 }
