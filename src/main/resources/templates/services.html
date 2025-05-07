@@ -1,5 +1,9 @@
 <head th:replace="head :: head"></head>
 <body>
+
+<div th:replace="cookiebanner :: #cookie-banner"></div>
+<script th:src="@{/js/cookie.js}"></script>
+
 <div th:replace="mobilemenu :: gigel"></div>
 <nav th:replace="header :: nav"></nav>
 	<div class="hero overlay">
