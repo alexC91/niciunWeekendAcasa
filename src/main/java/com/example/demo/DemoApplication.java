@@ -40,21 +40,6 @@ public class DemoApplication {
 			UserService someService = context.getBean(UserService.class);
 			someService.doMagic();
 
-			/// Testare email verify
-			NewAccountMail mailController = context.getBean(NewAccountMail.class);
-			// Simulate user registration
-			String testName = "TestUser";
-			String testEmail = "Vmihai739@gmail.com";
-			String registerResult = mailController.registerUser(testName, testEmail);
-			System.out.println("Registration result: " + registerResult);
-			// Retrieve the generated token for that email (for testing purposes)
-			String token = mailController.getTokenForEmail(testEmail);
-			System.out.println("Simulated token: " + token);
-
-			// NU verifica contul aici! Lasa userul să apese pe linkul real din email
-			System.out.println("Accesează linkul din email pentru a finaliza verificarea.");
-			/// Final testare
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
