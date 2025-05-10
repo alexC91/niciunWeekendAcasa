@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>project_sketch</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      background: #004080;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+
+    #card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 30px;
+      gap: 20px;
+      background: #f0f2f5;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 300px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 16px;
+    }
+
+    .card-content h2 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+
+    .card-content p {
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    .pulse {
+      animation: pulse 1s ease-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Discover</h1>
+    <p>some locations</p>
+  </header>
+
+  <div id="map"></div>
+  <main id="card-container"></main>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const locations = [
+      { name: "Castelul Bran", lat: 45.5155, lon: 25.367, image: "bran.jpg", history: "Construit în secolul al XIV-lea, castelul a fost folosit ca punct strategic între Transilvania și Țara Românească.", legend: "Este cunoscut drept Castelul lui Dracula, deși Vlad Țepeș nu a locuit aici.", itinerary: "Vizită ghidată, trasee montane, Muzeul Satului Bran." },
+      { name: "Cetatea Sighișoara", lat: 46.217, lon: 24.779, image: "cetatea_sighisoara.png", history: "Cetate medievală locuită, fondată de coloniștii sași în secolul XII.", legend: "Locul de naștere al lui Vlad Țepeș, personajul real care a inspirat legenda lui Dracula.", itinerary: "Turnul cu Ceas, Casa Vlad Dracul, bisericile fortificate." },
+      { name: "Transfăgărășan", lat: 45.5981, lon: 24.6165, image: "transfagarasan.jpg", history: "Construit în anii '70 ca drum strategic militar.", legend: "Se spune că drumul ar fi fost blestemat, datorită numărului mare de vieți pierdute în construcția sa.", itinerary: "Drumeții, Lacul Bâlea, cascade, trasee alpine." },
+      { name: "Salina Turda", lat: 46.5956, lon: 23.7913, image: "salina_turda.jpg", history: "Exploatare de sare încă din antichitate, transformată în atracție turistică.", legend: "Legenda spune că sarea de aici a fost adusă de uriași pentru a vindeca răni.", itinerary: "Vizită subterană, lac sărat, muzeu, ambarcațiuni subterane." },
+      { name: "Măgura Șureanu", lat: 45.5500, lon: 23.6000, image: "magura_sureanu.jpg", history: "Stațiune montană recent dezvoltată, populară pentru schi și drumeții.", legend: "Se spune că în vârful muntelui se află o poartă către o lume paralelă.", itinerary: "Schi, drumeții, vizite la cabane montane." },
+      { name: "Lacul Roșu", lat: 46.5667, lon: 25.9833, image: "lacul_rosu.jpg", history: "Formarea lacului a fost cauzată de alunecarea unui versant montan în anul 1837.", legend: "Se spune că lacul s-a format din sângele vărsat al unui cioban ucis de turci.", itinerary: "Plimbări cu barca, trasee montane, vizite la Cheile Bicazului." },
+      { name: "Cetatea Alba Carolina", lat: 45.067, lon: 23.575, image: "cetatea_alba_carolina.jpg", history: "Fortificație în stil Vauban, construită în secolul XVIII.", legend: "Se spune că sub cetate există un labirint de tuneluri secrete.", itinerary: "Plimbare prin bastioane, ceremonialul schimbării gărzii, muzeele cetății." },
+      { name: "Mănăstirea Voroneț", lat: 47.5193, lon: 25.8697, image: "manastirea_voronet.jpg", history: "Ctitorită în 1488 de Ștefan cel Mare după o victorie împotriva otomanilor.", legend: "Culoarea albastră 'Voroneț' este unică în lume, iar compoziția este încă necunoscută.", itinerary: "Vizită la mănăstire, picturi murale, trasee spirituale." },
+      { name: "Delta Dunării", lat: 45.0900, lon: 29.5744, image: "delta_dunarii.jpg", history: "Cea mai mare zonă umedă din Europa, parte UNESCO.", legend: "Se spune că Delta este protejată de spiritele apei și pădurilor.", itinerary: "Tururi cu barca, birdwatching, pescuit, eco-turism." },
+      { name: "Cascada Bigăr", lat: 45.0000, lon: 21.9600, image: "cascada_bigar.jpg", history: "Una dintre cele mai frumoase cascade din lume (până în 2021).", legend: "O fată s-a transformat în această cascadă din iubire imposibilă.", itinerary: "Drum forestier, fotografie, relaxare în natură." },
+      { name: "Peștera Scărișoara", lat: 46.5000, lon: 22.8167, image: "pestera_scarisoara.jpg", history: "Adăpostește unul dintre cei mai vechi ghețari subterani din lume.", legend: "Legenda spune că aici locuia Făt-Frumos al Gheții.", itinerary: "Explorare ghidată, peșteri, trasee montane." },
+      { name: "Castelul Peleș", lat: 45.3593, lon: 25.5426, image: "castelul_peles.jpg", history: "Reședință regală construită de Carol I în stil neorenașcentist.", legend: "Se spune că o parte din comoara regilor este ascunsă în pereți.", itinerary: "Vizită ghidată, grădini, muzeu regal." },
+      { name: "Biserica Neagră", lat: 45.6427, lon: 25.5889, image: "biserica_neagra.jpg", history: "Cel mai mare edificiu gotic din sud-estul Europei.", legend: "A fost numită 'Neagră' după marele incendiu din 1689.", itinerary: "Vizită la biserică, concerte de orgă, tur istoric Brașov." },
+      { name: "Cheile Nerei", lat: 44.9000, lon: 21.8500, image: "cheile_nerei.jpg", history: "Rezervație naturală cu peisaje spectaculoase, peșteri și lacuri.", legend: "Legenda spune că zânele Nerei se scăldau în lacurile albastre.", itinerary: "Drumeții, rafting, camping, cascade." }
+    ];
+
+    const map = L.map('map').setView([45.9432, 24.9668], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const container = document.getElementById("card-container");
+    const markerMap = new Map(); // pentru acces rapid la markeri
+
+    locations.forEach(loc => {
+      const marker = L.marker([loc.lat, loc.lon]).addTo(map)
+        .bindPopup(`<strong>${loc.name}</strong><br>${loc.history}`);
+
+      markerMap.set(loc.name, marker);
+
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${loc.image}" alt="${loc.name}">
+        <div class="card-content">
+          <h2>${loc.name}</h2>
+          <p><strong>Istorie:</strong> ${loc.history}</p>
+          <p><strong>Legenda:</strong> ${loc.legend}</p>
+          <p><strong>Itinerariu:</strong> ${loc.itinerary}</p>
+        </div>
+      `;
+
+      card.addEventListener("click", () => {
+        const m = markerMap.get(loc.name);
+        map.setView([loc.lat, loc.lon], 10, { animate: true });
+        m.openPopup();
+
+        // adăugăm clasa pentru animație
+        const iconElem = m._icon;
+        if (iconElem) {
+          iconElem.classList.remove("pulse");
+          void iconElem.offsetWidth; // forțează reflow
+          iconElem.classList.add("pulse");
+        }
+      });
+
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>
