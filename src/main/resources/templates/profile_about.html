@@ -1,0 +1,111 @@
+
+<head th:replace="head :: head"></head>
+<body>
+
+<div th:replace="cookiebanner :: #cookie-banner"></div>
+<script th:src="@{/js/cookie.js}"></script>
+
+<div th:replace="mobilemenu :: gigel"></div>
+<nav th:replace="header :: nav"></nav>
+
+<div class="hero overlay">
+    <div class="img-bg rellax">
+        <img src="images/hero_2.jpg" alt="Image" class="img-fluid">
+    </div>
+    <div class="container">
+        <div class="row align-items-center justify-content-start">
+            <div class="col-lg-6 mx-auto text-center">
+                <h1 class="heading" data-aos="fade-up">Profile</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="/css/profile_photos.css">
+<link rel="stylesheet" href="/css/profile.css">
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="content" class="content content-full-width">
+                <!-- begin profile -->
+                <div class="profile">
+                    <div class="profile-header">
+                        <!-- BEGIN profile-header-cover -->
+                        <div class="profile-header-cover"></div>
+                        <!-- END profile-header-cover -->
+                        <!-- BEGIN profile-header-content -->
+                        <div class="profile-header-content">
+                            <!-- BEGIN profile-header-img -->
+                            <div class="profile-header-img">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                            </div>
+                            <!-- END profile-header-img -->
+                            <!-- BEGIN profile-header-info -->
+                            <div class="profile-header-info">
+                                <h4 class="m-t-10 m-b-5">Sean Ngu</h4>
+                                <p class="m-b-10">UXUI + Frontend Developer</p>
+                                <a th:href="@{/profile_edit}" class="btn btn-sm btn-info mb-2">Edit Profile</a>
+                            </div>
+                            <!-- END profile-header-info -->
+                        </div>
+                        <!-- END profile-header-content -->
+                        <!-- BEGIN profile-header-tab -->
+                        <ul class="profile-header-tab nav nav-tabs">
+                            <li class="nav-item"><a th:href="@{/profile}">POSTS</a></li>
+                            <li class="nav-item"><a th:href="@{/profile_about}" class="nav-link active">ABOUT</a></li>
+                            <li class="nav-item"><a th:href="@{/profile_photos}">PHOTOS</a></li>
+                            <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/profile-videos" target="__blank" class="nav-link_">VIDEOS</a></li>
+                            <li class="nav-item"><a th:href="@{/friends}">FRIENDS</a></li>
+                        </ul>
+                        <!-- END profile-header-tab -->
+                    </div>
+                </div>
+
+                <!-- PERSONAL INFORMATION alignat cu poza -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <ul class="profile-info-list">
+                            <li class="title">PERSONAL INFORMATION</li>
+                            <li>
+                                <div class="field">Occupation:</div>
+                                <div class="value">UXUI / Frontend Developer</div>
+                            </li>
+                            <li>
+                                <div class="field">Skills:</div>
+                                <div class="value">C++, PHP, HTML5, CSS, jQuery, MYSQL, Ionic, Laravel, Phonegap, Bootstrap, Angular JS, Angular JS, Asp.net</div>
+                            </li>
+                            <li>
+                                <div class="field">Birth of Date:</div>
+                                <div class="value">1989/11/04</div>
+                            </li>
+                            <li>
+                                <div class="field">Country:</div>
+                                <div class="value">San Francisco</div>
+                            </li>
+                            <li>
+                                <div class="field">Address:</div>
+                                <div class="value">
+                                    <address class="m-b-0">
+                                        Twitter, Inc.<br />
+                                        1355 Market Street, Suite 900<br />
+                                        San Francisco, CA 94103
+                                    </address>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="field">Phone No.:</div>
+                                <div class="value">(123) 456-7890</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<section th:replace="footer :: section"></section>
+</body>
+</html>
