@@ -8,7 +8,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
 
 @Configuration
 @EnableWebSecurity
@@ -34,6 +40,8 @@ public class SecurityConfig {
                                 "/login1",
                                 "/counties",
                                 "/cities",       // your test page
+                                "/news",
+                                "/map",
                                 "/error/**",
                                 "/css/**",
                                 "/js/**",
@@ -59,9 +67,10 @@ public class SecurityConfig {
                 )
                 // 3) Logout configuration
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessHandler(logoutSuccessHandler())
                         .invalidateHttpSession(true)
+                        .clearAuthentication(true)
                         .deleteCookies("jwt_token", "JSESSIONID")
                         .permitAll()
                 )
@@ -73,6 +82,27 @@ public class SecurityConfig {
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new CustomLogoutSuccessHandler();
+    }
+
+    public static class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
+        @Override
+        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
+                                    Authentication authentication) throws java.io.IOException {
+            // Clear JWT cookie
+            Cookie cookie = new Cookie("jwt_token", null);
+            cookie.setPath("/");
+            cookie.setMaxAge(0);
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+
+            // Redirect to home page
+            response.sendRedirect("/");
+        }
     }
 
     @Bean

@@ -35,6 +35,12 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
+        // Skip filter for logout requests
+        if (request.getRequestURI().equals("/logout")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String token = null;
 
         // 1. Check Authorization header
