@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.JwtFilter;
-import com.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,40 +8,69 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final UserService userService;
-    private final JwtFilter jwtFilter;
-
-    public SecurityConfig(UserService userService, JwtFilter jwtFilter) {
-        this.userService = userService;
-        this.jwtFilter = jwtFilter;
-    }
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                // 1) Which URLs are public vs. secured
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/register", "/register1", "/login", "/css/**", "/js/**","/fonts/**","/icomoon/**","/images/**","/js/**","/scss/**", "/sendContactEmail", "/login1").permitAll()
+                        // your public pages
+                        .requestMatchers(
+                                "/",
+                                "/about",
+                                "/blog",
+                                "/services",
+                                "/contact",
+                                "/register",
+                                "/register1",
+                                "/login1",
+                                "/counties",
+                                "/cities",       // your test page
+                                "/error/**",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**"
+                        ).permitAll()
+                        // everything else requires authentication
                         .anyRequest().authenticated()
                 )
+                // 2) Form-login customization
                 .formLogin(form -> form
-                        .loginPage("/login1")
-                        .defaultSuccessUrl("/")
+                        // show login page on GET /login
+                        .loginPage("/login")
+                        // process credentials on POST /login (not /perform_login)
+                        .loginProcessingUrl("/login")
+                        // match your <input name="username"> and name="password"
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        // where to go on success/failure
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error")
+                        // allow everyone to see the login form & submit
                         .permitAll()
                 )
+                // 3) Logout configuration
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("jwt_token", "JSESSIONID")
                         .permitAll()
                 )
-                .userDetailsService(userService);
-
-        // Add JWT filter before Spring Security's UsernamePasswordAuthenticationFilter
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                // 4) Add JWT filter before UsernamePasswordAuthenticationFilter
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                // 5) Disable CSRF for API endpoints but keep it for form submissions
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/**", "/login1", "/register1")
+                );
 
         return http.build();
     }
