@@ -1,50 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="head :: head"></head>
-
 <body>
 <div th:replace="cookiebanner :: #cookie-banner"></div>
 <script th:src="@{/js/cookie.js}"></script>
 
-    <div th:replace="mobilemenu :: gigel"></div>
-    <nav th:replace="header :: nav"></nav>
-    <div class="hero overlay" style="padding-top: 1rem">
+<div th:replace="mobilemenu :: gigel"></div>
+<nav th:replace="header :: nav"></nav>
+<div class="hero overlay" style="padding-top: 1rem">
 
-        <div class="img-bg rellax">
-            <img src="images/hero_2.jpg" alt="Image" class="img-fluid">
-        </div>
+    <div class="img-bg rellax">
+        <img src="images/hero_2.jpg" alt="Image" class="img-fluid">
+    </div>
 
-        <div class="container">
-            <div class="row align-items-center justify-content-start">
-                <div class="col-lg-5 mx-auto text-center">
-                    <div class="login-modal">
-                        <div class="login-modal-content">
-                            <div class="tab-menu">
-                                <button id="login-tab" class="active">Login</button>
-                                <a th:href="@{register}"><button id="register-tab">Create Account</button></a>
+    <div class="container">
+        <div class="row align-items-center justify-content-start">
+            <div class="col-lg-5 mx-auto text-center">
+                <div class="login-modal">
+                    <div class="login-modal-content">
+                        <div class="tab-menu">
+                            <button id="login-tab" class="active">Login</button>
+                            <a th:href="@{register}"><button id="register-tab">Create Account</button></a>
+                        </div>
+
+                        <!-- Success message -->
+                        <div th:if="${success}" class="alert alert-success mt-3">
+                            <p th:text="${message}">Success message</p>
+                        </div>
+
+                        <!-- Error message -->
+                        <div th:if="${param.error}" class="alert alert-danger mt-3">
+                            <p th:if="${param.error[0] == 'invalid_credentials'}">Email sau parolă incorectă.</p>
+                            <p th:if="${param.error[0] == 'account_not_activated'}">Contul nu este activat. Verifică emailul pentru link-ul de activare sau <a th:href="@{/resend-verification(email=${param.email[0]})}">solicită un nou email de activare</a>.</p>
+                            <p th:unless="${param.error[0] == 'invalid_credentials' || param.error[0] == 'account_not_activated'}">Eroare la autentificare. Încearcă din nou.</p>
+                        </div>
+
+                        <div id="login-form" class="form-content active">
+                            <div class="social-login">
+                                <button><img src="images/facebook_rotund.png" alt="Facebook"> Login with
+                                    Facebook</button>
+                                <button><img src="images/apple.png" alt="Apple"> Login with Apple ID</button>
+                                <button><img src="images/google.png" alt="Google"> Login with Google</button>
                             </div>
 
-                            <div id="login-form" class="form-content active">
-                                <div class="social-login">
-                                    <button><img src="images/facebook_rotund.png" alt="Facebook"> Login with
-                                        Facebook</button>
-                                    <button><img src="images/apple.png" alt="Apple"> Login with Apple ID</button>
-                                    <button><img src="images/google.png" alt="Google"> Login with Google</button>
-                                </div>
+                            <div class="separator"><span>or with E-MAIL</span></div>
 
-                                <div class="separator"><span>or with E-MAIL</span></div>
+                            <form method="get" action="login1">
+                                <input type="text" name="email" placeholder="Email" required>
+                                <input type="password" name="password" placeholder="Password" required>
+                                <button type="submit" class="login-button">Login</button>
+                            </form>
 
-                                <form method="get" action="login1">
-                                    <input type="text" name="email" placeholder="Email" required>
-                                    <input type="password" name="password" placeholder="Password" required>
-                                    <button type="submit" class="login-button">Login</button>
-                                </form>
-
-                                <a href="#">Forgot password?</a><br>
-                            </div>
+                            <a th:href="@{/forgot-password}">Forgot password?</a><br>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <section th:replace="footer :: section"></section>
+</div>
+<section th:replace="footer :: section"></section>
 </body>
+</html>

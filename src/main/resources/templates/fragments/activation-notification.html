@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="notification" th:if="${session.accountNotActivated}" class="account-activation-alert">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Contul tău nu este activat!</strong>
+        Te rugăm să verifici email-ul pentru link-ul de activare sau
+        <a th:href="@{/resend-verification(email=${session.userEmail})}" class="alert-link">solicită un nou email de activare</a>.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+</body>
+</html>

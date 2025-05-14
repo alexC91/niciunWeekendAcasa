@@ -49,11 +49,11 @@ public class GreetingController {
         model.addAttribute("activePage", "register");
         return "signup";
     }
-   @GetMapping("/map")
-   public String map(Model model) {
-       model.addAttribute("activePage", "map");
-       return "map_test";
-   }
+    @GetMapping("/map")
+    public String map(Model model) {
+        model.addAttribute("activePage", "map");
+        return "map_test";
+    }
 
     @GetMapping("/news")
     public String news(Model model) {

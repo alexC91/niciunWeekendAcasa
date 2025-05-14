@@ -24,6 +24,9 @@ import java.util.Map;
 public class DemoApplication {
 
 	public static void main(String[] args) {
+		// Set server port to 9090
+		System.setProperty("server.port", "9090");
+
 		ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args);
 
 		try {
@@ -32,23 +35,16 @@ public class DemoApplication {
 			// 1. Test database connection
 			testDatabaseConnection();
 
-			// 2. Verify UserService bean
-			//testUserService(context);
+			// 2. Test email configuration
+			testEmailConfiguration();
 
 			// 3. System readiness check
 			System.out.println("\n=== System Status ===");
 			System.out.println("Database: OK");
-			System.out.println("UserService: OK");
 			System.out.println("Spring Context: OK");
+			System.out.println("Server Port: 9090");
 
-			// 4. Email service availability (optional)
-			if (isEmailEnabled()) {
-				System.out.println("Email Service: Enabled (set to false by default)");
-			} else {
-				System.out.println("Email Service: Disabled");
-			}
-
-			// 5. User instructions
+			// 4. User instructions
 			printUserInstructions();
 
 			System.out.println("\n=== Application Started Successfully ===");
@@ -68,24 +64,22 @@ public class DemoApplication {
 		result.forEach((key, value) -> System.out.printf("%-15s: %s%n", key, value));
 	}
 
-//	private static void testUserService(ConfigurableApplicationContext context) {
-//		System.out.println("\n[2/3] Testing UserService...");
-//		UserService userService = context.getBean(UserService.class);
-//		userService.loadUserByUsername("admin@admin.com");
-//		System.out.println("UserService test passed");
-//	}
+	private static void testEmailConfiguration() {
+		System.out.println("\n[2/3] Testing email configuration...");
+		boolean emailConfigOk = Email.testEmailConfiguration();
+		if (emailConfigOk) {
+			System.out.println("Email configuration test passed");
+		} else {
+			System.out.println("Email configuration test failed - check logs for details");
+		}
+	}
 
 	private static void printUserInstructions() {
 		System.out.println("\n=== How to Test ===");
-		System.out.println("1. Register: http://localhost:8080/register");
-		System.out.println("2. Login:    http://localhost:8080/login");
-		System.out.println("3. Check DB: Verify users in 'app_users' table");
-		System.out.println("\nNote: Email service is " + (isEmailEnabled() ? "ENABLED" : "DISABLED") +
-				" (change in DemoApplication.java)");
-	}
-
-	private static boolean isEmailEnabled() {
-		return false; // Change to true to enable email sending
+		System.out.println("1. Register: http://localhost:9090/register");
+		System.out.println("2. Login:    http://localhost:9090/login");
+		System.out.println("3. Manual activation: http://localhost:9090/manual-activate?email=user@example.com");
+		System.out.println("4. Check DB: Verify users in 'app_users' table");
 	}
 
 	private static SimpleDriverDataSource getDataSource() throws ClassNotFoundException {
@@ -95,20 +89,5 @@ public class DemoApplication {
 		dataSource.setUsername("daniel");
 		dataSource.setPassword("1234");
 		return dataSource;
-	}
-
-	// Kept for backward compatibility
-	private static void sendTestEmail() {
-		if (isEmailEnabled()) {
-			try {
-				String recipient = "gigel@test.com";
-				String subject = "Test Email from Spring Boot";
-				String body = "This is a test email sent on startup";
-				Email.sendEmail(recipient, subject, body);
-			} catch (Exception e) {
-				System.err.println("Failed to send test email:");
-				e.printStackTrace();
-			}
-		}
 	}
 }
