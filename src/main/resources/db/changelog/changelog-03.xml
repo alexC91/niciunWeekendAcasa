@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="2025.04.16.6" author="Alex" dbms="mssql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="app_users"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE app_users(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            last_name VARCHAR(100) NOT NULL,
+            first_name VARCHAR(100) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            pass VARCHAR(100) NOT NULL,
+            is_activated BIT,
+            is_disabled BIT,
+            created_at DATETIME,
+        </sql>
+    </changeSet>
+    <changeSet id="2025.04.16.7" author="Alex" dbms="mssql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="app_roles"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE app_roles(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            r_name VARCHAR(100) NOT NULL,
+            r_description VARCHAR(500) NOT NULL
+        </sql>
+    </changeSet>
+    <changeSet id="2025.04.16.8" author="Alex" dbms="mssql" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_role"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE user_role(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            u_id INT
+            role_id INT
+            u_id FOREIGN KEY REFERENCES app_users(id)
+            role_id FOREIGN KEY REFERENCES app_roles(id)
+        </sql>
+    </changeSet>
+</databaseChangeLog>
