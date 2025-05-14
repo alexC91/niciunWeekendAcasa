@@ -4,7 +4,22 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2025.05.14.1" author="Alex" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="geo_areas"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE geo_areas(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+
+        </sql>
+    </changeSet>
 <changeSet id="2025.04.23.2" author="Theodora">
+
         <sql>
             DELETE FROM geo_areas;
             INSERT INTO geo_areas (name)

@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-    <changeSet id="2025.04.16.6" author="Alex" dbms="mssql">
+    <changeSet id="2025.04.16.6" author="Alex" dbms="mysql">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="app_users"/>
@@ -44,9 +44,9 @@
         <sql>
             CREATE TABLE user_role(
             id INT AUTO_INCREMENT PRIMARY KEY,
-            u_id INT
-            role_id INT
-            u_id FOREIGN KEY REFERENCES app_users(id)
+            u_id INT,
+            role_id INT,
+            u_id FOREIGN KEY REFERENCES app_users(id),
             role_id FOREIGN KEY REFERENCES app_roles(id)
         </sql>
     </changeSet>
