@@ -57,34 +57,34 @@ public class RegistrationController {
         try {
             // Manual validation
             if (firstName == null || firstName.isEmpty()) {
-                model.addAttribute("error", "Prenumele este obligatoriu");
+                model.addAttribute("error", "Surname is required");
                 return "signup";
             }
 
             if (lastName == null || lastName.isEmpty()) {
-                model.addAttribute("error", "Numele este obligatoriu");
+                model.addAttribute("error", "Name is required");
                 return "signup";
             }
 
             if (email == null || email.isEmpty()) {
-                model.addAttribute("error", "Email-ul este obligatoriu");
+                model.addAttribute("error", "Email is required");
                 return "signup";
             } else if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-                model.addAttribute("error", "Formatul email-ului este invalid");
+                model.addAttribute("error", "The email format is invalid.");
                 return "signup";
             }
 
             if (password == null || password.isEmpty()) {
-                model.addAttribute("error", "Parola este obligatorie");
+                model.addAttribute("error", "Password is required.");
                 return "signup";
             } else if (password.length() < 6) {
-                model.addAttribute("error", "Parola trebuie să aibă minim 6 caractere");
+                model.addAttribute("error", "Password must be at least 6 characters long");
                 return "signup";
             }
 
             // Only validate confirmPassword if it's provided (for backward compatibility)
             if (confirmPassword != null && !password.equals(confirmPassword)) {
-                model.addAttribute("error", "Parolele nu corespund");
+                model.addAttribute("error", "Passwords do not match.");
                 return "signup";
             }
 
@@ -97,7 +97,7 @@ public class RegistrationController {
             }
 
             if (existingUser != null) {
-                model.addAttribute("error", "Emailul este deja folosit");
+                model.addAttribute("error", "Email is already in use.");
                 return "signup";
             }
 
@@ -143,7 +143,7 @@ public class RegistrationController {
                 // Continue even if email fails - we'll set the account as activated
             }
 
-            model.addAttribute("message", "Contul a fost creat cu succes. Te poți loga acum.");
+            model.addAttribute("message", "The account has been created successfully. You can log in now.");
             model.addAttribute("success", true);
             return "signup";
 
@@ -152,7 +152,7 @@ public class RegistrationController {
             ex.printStackTrace();
 
             // Add a generic error message
-            model.addAttribute("error", "A apărut o eroare la înregistrare: " + ex.getMessage());
+            model.addAttribute("error", "An error occurred while registering: " + ex.getMessage());
             return "signup";
         }
     }
@@ -165,13 +165,13 @@ public class RegistrationController {
 
             String email = tokenToEmailMap.get(token); // Get without removing first
             if (email == null) {
-                model.addAttribute("message", "Link invalid sau expirat.");
+                model.addAttribute("message", "Invalid or expired link.");
                 return "verify_result";
             }
 
             Users user = userRepository.findByEmail(email).orElse(null);
             if (user == null) {
-                model.addAttribute("message", "Utilizatorul nu a fost găsit.");
+                model.addAttribute("message", "User not found.");
                 return "verify_result";
             }
 
@@ -183,11 +183,11 @@ public class RegistrationController {
             tokenToEmailMap.remove(token);
 
             System.out.println("Account activated for: " + email);
-            model.addAttribute("message", "Cont activat! Poți să te loghezi.");
+            model.addAttribute("message", "Account activated! You can log in.");
             return "verify_result";
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("message", "Eroare la activarea contului: " + e.getMessage());
+            model.addAttribute("message", "Account activation error: " + e.getMessage());
             return "verify_result";
         }
     }
@@ -249,12 +249,12 @@ public class RegistrationController {
             Users user = userRepository.findByEmail(email).orElse(null);
 
             if (user == null) {
-                model.addAttribute("message", "Email-ul nu a fost găsit în sistem.");
+                model.addAttribute("message", "The email was not found in the system.");
                 return "verify_result";
             }
 
             if (user.getIsActivated()) {
-                model.addAttribute("message", "Contul este deja activat. Te poți loga.");
+                model.addAttribute("message", "The account is already activated. You can log in.");
                 return "verify_result";
             }
 
@@ -284,11 +284,11 @@ public class RegistrationController {
                 // Continue even if email fails
             }
 
-            model.addAttribute("message", "Un nou email de verificare a fost trimis. Verifică căsuța de email.");
+            model.addAttribute("message", "A new verification email has been sent. Please check your inbox.");
             return "verify_result";
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("message", "Eroare la trimiterea email-ului: " + e.getMessage());
+            model.addAttribute("message", "Error sending email: " + e.getMessage());
             return "verify_result";
         }
     }
@@ -300,12 +300,12 @@ public class RegistrationController {
             Users user = userRepository.findByEmail(email).orElse(null);
 
             if (user == null) {
-                model.addAttribute("message", "Email-ul nu a fost găsit în sistem.");
+                model.addAttribute("message", "The email was not found in the system.");
                 return "verify_result";
             }
 
             if (user.getIsActivated()) {
-                model.addAttribute("message", "Contul este deja activat.");
+                model.addAttribute("message", "The account is already activated.");
                 return "verify_result";
             }
 
@@ -313,11 +313,11 @@ public class RegistrationController {
             user.setIsActivated(true);
             userRepository.save(user);
 
-            model.addAttribute("message", "Cont activat manual! Poți să te loghezi acum.");
+            model.addAttribute("message", "Account manually activated! You can log in now.");
             return "verify_result";
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("message", "Eroare la activarea contului: " + e.getMessage());
+            model.addAttribute("message", "Account activation error: " + e.getMessage());
             return "verify_result";
         }
     }

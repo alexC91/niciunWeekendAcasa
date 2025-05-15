@@ -94,4 +94,14 @@ public class GreetingController {
     public String profile_about(Model model) {
         model.addAttribute("activePage", "profile_about");
         return "profile_about";}
+
+    @GetMapping("/resetpassword")
+    public String resetpassword(Model model) {
+        model.addAttribute("activePage", "resetpassword");
+        return "resetpassword";}
+
+    @GetMapping("/mailresetpassword")
+    public String mailresetpassword(Model model) {
+        model.addAttribute("activePage", "mailresetpassword");
+        return "mailresetpassword";}
 }

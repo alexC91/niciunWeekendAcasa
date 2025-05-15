@@ -48,7 +48,7 @@ public class SecurityConfig {
                                 "/images/**"
                         ).permitAll()
                         // everything else requires authentication
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 // 2) Form-login customization
                 .formLogin(form -> form

@@ -19,7 +19,7 @@
 .tab-menu {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .tab-menu button {

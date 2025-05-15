@@ -55,12 +55,15 @@
                         </li>
 
                         <!-- Show Logout and Username if authenticated -->
-                        <li sec:authorize="isAuthenticated()" class="cta-button">
-                            <a th:href="@{/logout}">Logout</a>
+                        <li sec:authorize="isAuthenticated()" class="cta-button profile-dropdown">
+                            <a th:href="@{/profile}" class="profile-link">
+                                <img src="/images/profil.png" alt="Profile">
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a th:href="@{/logout}">Logout</a></li>
+                            </ul>
                         </li>
-                        <li sec:authorize="isAuthenticated()" class="cta-button">
-                            <span>Welcome, <span sec:authentication="name"></span></span>
-                        </li>
+                    </ul>
                     </ul>
 
                     <a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"
