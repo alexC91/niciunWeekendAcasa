@@ -1,24 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="head :: head"></head>
 <body>
 
 <div th:replace="cookiebanner :: #cookie-banner"></div>
 <script th:src="@{/js/cookie.js}"></script>
+<script th:src="@{/js/profile_edit.js}"></script>
+<link href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet"/>
+<script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.js"></script>
 
 <div th:replace="mobilemenu :: gigel"></div>
 <nav th:replace="header :: nav"></nav>
 <div class="hero overlay">
-
   <div class="img-bg rellax">
     <img src="images/hero_2.jpg" alt="Image" class="img-fluid">
-  </div>
-  <div class="container">
-    <div class="row align-items-center justify-content-start">
-      <div class="col-lg-6 mx-auto text-center">
-
-        <h1 class="heading" data-aos="fade-up">Profile</h1>
-
-      </div>
-    </div>
   </div>
 </div>
 <link rel="stylesheet" href="/css/profile_edit.css">
@@ -31,29 +26,19 @@
         <div class="row">
           <div class="col-md-12">
             <div id="content" class="content content-full-width">
-              <!-- begin profile -->
               <div class="profile">
                 <div class="profile-header">
-                  <!-- BEGIN profile-header-cover -->
                   <div class="profile-header-cover"></div>
-                  <!-- END profile-header-cover -->
-                  <!-- BEGIN profile-header-content -->
                   <div class="profile-header-content">
-                    <!-- BEGIN profile-header-img -->
                     <div class="profile-header-img">
-                      <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                      <img id="mainProfileImage" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
                     </div>
-                    <!-- END profile-header-img -->
-                    <!-- BEGIN profile-header-info -->
                     <div class="profile-header-info">
                       <h4 class="m-t-10 m-b-5">John Doe</h4>
                       <p class="m-b-10">Web And Frontend Developer</p>
                       <div style="height: 50px;"></div>
                     </div>
-                    <!-- END profile-header-info -->
                   </div>
-                  <!-- END profile-header-content -->
-                  <!-- BEGIN profile-header-tab -->
                   <ul class="profile-header-tab nav nav-tabs">
                     <li class="nav-item"><a th:href="@{/profile}">POSTS</a></li>
                     <li class="nav-item"><a th:href="@{/profile_about}">ABOUT</a></li>
@@ -61,86 +46,64 @@
                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/profile-videos" target="__blank" class="nav-link_">VIDEOS</a></li>
                     <li class="nav-item"><a th:href="@{/friends}">FRIENDS</a></li>
                   </ul>
-                  <!-- END profile-header-tab -->
                 </div>
               </div>
-              <!-- end profile -->
-              <!-- begin profile-content -->
               <div class="profile-content">
-                <!-- begin tab-content -->
                 <div class="tab-content p-0">
-
-                  <!-- begin #profile-about tab -->
                   <div class="tab-pane fade in active show" id="profile-about">
-                    <!-- begin table -->
                     <div class="table-responsive">
                       <table class="table table-profile">
-                        <thead>
-                        <tr>
-                          <th></th>
-                          <th>
-                            <h4>Micheal    Meyer <small>Lorraine Stokes</small></h4>
-                          </th>
-                        </tr>
-                        </thead>
                         <tbody>
-                        <tr class="highlight">
-                          <td class="field">Mood</td>
-                          <td><a href="javascript:;">Add Mood Message</a></td>
+
+                        <tr>
+                          <td class="field">Profile Photo</td>
+                          <td>
+                            <input type="file" id="profilePhotoInput" accept="image/*" class="form-control-file">
+                            <div style="margin-top:10px;">
+                              <img id="photoPreview" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="preview" style="max-width: 114px; max-height: 114px; border-radius: 4px; border: 1px solid #ccc;">
+                            </div>
+                            <small class="text-muted">Max size: 114x114 pixels</small>
+                          </td>
                         </tr>
-                        <tr class="divider">
-                          <td colspan="2"></td>
-                        </tr>
+
                         <tr>
                           <td class="field">Mobile</td>
-                          <td><i class="fa fa-mobile fa-lg m-r-5"></i> +1-(847)- 367-8924 <a href="javascript:;" class="m-l-5">Edit</a></td>
+                          <td>
+                            <input type="tel" class="form-control input-inline input-xs" name="mobile" value="+1-(847)-367-8924">
+                          </td>
                         </tr>
                         <tr>
-                          <td class="field">Home</td>
-                          <td><a href="javascript:;">Add Number</a></td>
-                        </tr>
-                        <tr>
-                          <td class="field">Office</td>
-                          <td><a href="javascript:;">Add Number</a></td>
-                        </tr>
-                        <tr class="divider">
-                          <td colspan="2"></td>
-                        </tr>
-                        <tr class="highlight">
                           <td class="field">About Me</td>
-                          <td><a href="javascript:;">Add Description</a></td>
-                        </tr>
-                        <tr class="divider">
-                          <td colspan="2"></td>
+                          <td>
+                            <textarea class="form-control" name="about" rows="3" maxlength="300" placeholder="Write something about yourself...">This is my profile description.</textarea>
+                          </td>
                         </tr>
                         <tr>
                           <td class="field">Country/Region</td>
                           <td>
-                            <select class="form-control input-inline input-xs" name="region">
-                              <option value="US" selected="">United State</option>
-                              <option value="AF">Afghanistan</option>
-                              <option value="AL">Albania</option>
-                              <option value="DZ">Algeria</option>
-                              <option value="AS">American Samoa</option>
-                              <option value="AD">Andorra</option>
-                              <option value="AO">Angola</option>
-                              <option value="AI">Anguilla</option>
-                              <option value="AQ">Antarctica</option>
-                              <option value="AG">Antigua and Barbuda</option>
+                            <select class="form-control input-inline input-xs" name="country" id="countrySelect">
+                              <option value="">Select Country</option>
+                              <option value="US">United States</option>
+                              <option value="RO">Romania</option>
+                              <option value="FR">France</option>
+                              <option value="DE">Germany</option>
+                              <option value="JP">Japan</option>
                             </select>
                           </td>
                         </tr>
                         <tr>
                           <td class="field">City</td>
-                          <td>Los Angeles</td>
+                          <td>
+                            <select class="form-control input-inline input-xs" name="city" id="citySelect">
+                              <option value="">Select City</option>
+                            </select>
+                          </td>
                         </tr>
                         <tr>
                           <td class="field">State</td>
-                          <td><a href="javascript:;">Add State</a></td>
-                        </tr>
-                        <tr>
-                          <td class="field">Website</td>
-                          <td><a href="javascript:;">Add Webpage</a></td>
+                          <td>
+                            <input type="text" class="form-control input-inline input-xs" name="state" placeholder="Enter State">
+                          </td>
                         </tr>
                         <tr>
                           <td class="field">Gender</td>
@@ -148,6 +111,7 @@
                             <select class="form-control input-inline input-xs" name="gender">
                               <option value="male">Male</option>
                               <option value="female">Female</option>
+                              <option value="other">Other</option>
                             </select>
                           </td>
                         </tr>
@@ -155,15 +119,23 @@
                           <td class="field">Birthdate</td>
                           <td>
                             <select class="form-control input-inline input-xs" name="day">
-                              <option value="04" selected="">04</option>
+                              <script>for(let i=1;i<=31;i++)document.write(`<option value="${i}">${i}</option>`);</script>
                             </select>
                             -
                             <select class="form-control input-inline input-xs" name="month">
-                              <option value="11" selected="">11</option>
+                              <script>
+                                const months = ["01","02","03","04","05","06","07","08","09","10","11","12"];
+                                months.forEach(m => document.write(`<option value="${m}">${m}</option>`));
+                              </script>
                             </select>
                             -
                             <select class="form-control input-inline input-xs" name="year">
-                              <option value="1989" selected="">1989</option>
+                              <script>
+                                const yearNow = new Date().getFullYear();
+                                for(let y = yearNow; y >= 1900; y--){
+                                  document.write(`<option value="${y}">${y}</option>`);
+                                }
+                              </script>
                             </select>
                           </td>
                         </tr>
@@ -171,34 +143,50 @@
                           <td class="field">Language</td>
                           <td>
                             <select class="form-control input-inline input-xs" name="language">
-                              <option value="" selected="">English</option>
+                              <option value="en">English</option>
+                              <option value="ro">Romanian</option>
+                              <option value="fr">French</option>
+                              <option value="de">German</option>
+                              <option value="es">Spanish</option>
+                              <option value="zh">Chinese</option>
+                              <option value="ar">Arabic</option>
+                              <option value="ru">Russian</option>
+                              <option value="ja">Japanese</option>
                             </select>
                           </td>
                         </tr>
-                        <tr class="divider">
-                          <td colspan="2"></td>
-                        </tr>
-                        <tr class="highlight">
-                          <td class="field">&nbsp;</td>
+                        <tr>
+                          <td class="field"></td>
                           <td class="p-t-10 p-b-10">
                             <button type="submit" class="btn btn-primary width-150">Update</button>
-                            <button type="submit" class="btn btn-white btn-white-without-border width-150 m-l-5">Cancel</button>
+                            <button type="button" class="btn btn-primary width-150 m-l-5" onclick="window.location.href='/profile';">Cancel</button>
                           </td>
                         </tr>
+
                         </tbody>
                       </table>
                     </div>
-                    <!-- end table -->
                   </div>
-                  <!-- end #profile-about tab -->
                 </div>
-                <!-- end tab-content -->
               </div>
-              <!-- end profile-content -->
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Crop Modal -->
+<div id="cropModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.6); z-index:9999; display:flex; justify-content:center; align-items:center;">
+  <div style="background:#fff; padding:20px; border-radius:8px; max-width:90vw; max-height:90vh; width:100%; overflow:auto; position:relative;">
+    <h5 style="margin-top:0;">Crop your profile photo</h5>
+    <div style="max-height:70vh; overflow:auto; text-align:center;">
+      <img id="cropImage" style="max-width:100%; height:auto; border:1px solid #ccc; border-radius:4px;">
+    </div>
+    <div style="text-align:right; margin-top:15px;">
+      <button id="cropConfirm" class="btn btn-primary">Crop & Use Image</button>
+      <button id="cropCancel" class="btn btn-secondary" style="margin-left:10px;">Cancel</button>
     </div>
   </div>
 </div>
