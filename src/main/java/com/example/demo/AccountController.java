@@ -2,8 +2,6 @@ package com.example.demo;
 
 import com.linkDatabase.Users;
 import com.repositories.UserRepository;
-import jakarta.mail.*;
-import jakarta.mail.internet.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -23,10 +20,8 @@ public class AccountController {
     @Autowired
     private UserRepository repo;
 
-    private static final String SMTP_SERVER = "smtp.gmail.com";
-    private static final String USERNAME = "niciunweekendacasa1@gmail.com";
-    private static final String PASSWORD = "vvhf dyxd cykx hpum";
-    private static final int SMTP_PORT = 587;
+    @Autowired
+    private Email emailService;
 
     private final Map<String, String> tokenToEmailMap = new HashMap<>();
 
@@ -73,14 +68,14 @@ public class AccountController {
             String token = UUID.randomUUID().toString();
             tokenToEmailMap.put(token, newUser.getEmail());
 
-            // Trimite email
+            // Trimite email cu link de activare și salvează-l în DB
             String link = "http://localhost:9090/verify?token=" + token;
             String subject = "Activează-ți contul niciunWeekendAcasa";
             String body = "Salut " + newUser.getFirstName() + ",\n\n" +
                     "Pentru a-ți activa contul, accesează link-ul de mai jos:\n\n" +
                     link + "\n\nMulțumim!";
 
-            sendEmail(newUser.getEmail(), subject, body);
+            emailService.sendEmail(newUser.getEmail(), subject, body);
 
             model.addAttribute("message", "Contul a fost creat. Verifică emailul pentru activare.");
             return "register";
@@ -109,31 +104,6 @@ public class AccountController {
         repo.saveAndFlush(user);
 
         model.addAttribute("message", "Cont activat! Poți să te loghezi.");
-        return "redirect:/login";  // IMPORTANT: redirecționează spre pagina de login
-    }
-
-    private void sendEmail(String to, String subject, String body) {
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", SMTP_SERVER);
-        props.put("mail.smtp.port", SMTP_PORT);
-
-        Session session = Session.getInstance(props, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(USERNAME, PASSWORD);
-            }
-        });
-
-        try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(USERNAME, "niciunWeekendAcasa"));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-            msg.setSubject(subject);
-            msg.setText(body);
-            Transport.send(msg);
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        return "redirect:/login";
     }
 }

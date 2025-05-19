@@ -21,7 +21,11 @@ import java.util.Map;
 })
 @EnableJpaRepositories(basePackages = "com.repositories")
 @EnableDiscoveryClient
-@EntityScan(basePackages = "com.linkDatabase")
+@EntityScan(basePackages = {
+		"com.linkDatabase",
+		"com.example.demo"
+})
+
 public class DemoApplication {
 
 	public static void main(String[] args) {

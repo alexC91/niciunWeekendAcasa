@@ -1,16 +1,26 @@
 package com.example.demo;
 
+import com.repositories.SentEmailRepository;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
-import java.util.Properties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Properties;
+import java.time.LocalDateTime;
+
+
+@Service
 public class Email {
     private static final String SMTP_SERVER = "smtp.gmail.com"; // Gmail SMTP Server
     private static final String USERNAME = "niciunweekendacasa1@gmail.com"; // Your Gmail Address
     private static final String PASSWORD = "vvhf dyxd cykx hpum"; // Gmail App Password
     private static final int SMTP_PORT = 587; // TLS Port
 
-    public static void sendEmail(String to, String subject, String body) {
+    @Autowired
+    private SentEmailRepository sentEmailRepository;
+
+    public void sendEmail(String to, String subject, String body) {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true"); // Enable TLS
@@ -36,6 +46,15 @@ public class Email {
             // Send Email
             Transport.send(msg);
             System.out.println("Email sent successfully to: " + to);
+
+            // Salvare în baza de date
+            SentEmail email = new SentEmail();
+            email.setRecipient(to);
+            email.setSubject(subject);
+            email.setContent(body);
+            email.setSentAt(LocalDateTime.now());
+            sentEmailRepository.save(email);
+
         } catch (MessagingException | java.io.UnsupportedEncodingException e) {
             e.printStackTrace();
         }

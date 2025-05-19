@@ -25,6 +25,7 @@ public class SecurityConfig {
                                 "/services",
                                 "/contact",
                                 "/register",
+                                "/verify",
                                 "/counties",
                                 "/cities",       // your test page
                                 "/error/**"
