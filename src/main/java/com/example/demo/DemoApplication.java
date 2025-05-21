@@ -33,7 +33,7 @@ public class DemoApplication {
 			System.out.println("\n=== Application Startup Checks ===");
 
 			// 1. Test database connection
-			testDatabaseConnection();
+//			testDatabaseConnection();
 
 			// 2. Test email configuration
 			testEmailConfiguration();
@@ -56,13 +56,13 @@ public class DemoApplication {
 		}
 	}
 
-	private static void testDatabaseConnection() throws Exception {
-		System.out.println("\n[1/3] Testing database connection...");
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
-		Map<String, Object> result = jdbcTemplate.queryForMap("SELECT 13 as test_value, NOW() as timestamp");
-		System.out.println("Database connection successful:");
-		result.forEach((key, value) -> System.out.printf("%-15s: %s%n", key, value));
-	}
+//	private static void testDatabaseConnection() throws Exception {
+//		System.out.println("\n[1/3] Testing database connection...");
+//		JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
+//		Map<String, Object> result = jdbcTemplate.queryForMap("SELECT 13 as test_value, NOW() as timestamp");
+//		System.out.println("Database connection successful:");
+//		result.forEach((key, value) -> System.out.printf("%-15s: %s%n", key, value));
+//	}
 
 	private static void testEmailConfiguration() {
 		System.out.println("\n[2/3] Testing email configuration...");
@@ -82,12 +82,12 @@ public class DemoApplication {
 		System.out.println("4. Check DB: Verify users in 'app_users' table");
 	}
 
-	private static SimpleDriverDataSource getDataSource() throws ClassNotFoundException {
-		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-		dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
-		dataSource.setUrl("jdbc:mysql://localhost:3306/proiect_java?useSSL=false&serverTimezone=UTC");
-		dataSource.setUsername("daniel");
-		dataSource.setPassword("1234");
-		return dataSource;
-	}
+//	private static SimpleDriverDataSource getDataSource() throws ClassNotFoundException {
+//		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+//		dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
+//		dataSource.setUrl("jdbc:mysql://localhost:3306/proiect_java?useSSL=false&serverTimezone=UTC");
+//		dataSource.setUsername("daniel");
+//		dataSource.setPassword("1234");
+//		return dataSource;
+//	}
 }
