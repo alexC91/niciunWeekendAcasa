@@ -15,10 +15,10 @@
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
             FOREIGN KEY (geo_area_id) REFERENCES geo_areas(id)
-
+            )
         </sql>
     </changeSet>
-<changeSet id="2025.04.23.65" author="Alex">
+<changeSet id="2025.04.23.101" author="Alex" dbms="mysql">
         <sql>
             DELETE FROM geo_units;
             INSERT INTO geo_units (name, geo_area_id)

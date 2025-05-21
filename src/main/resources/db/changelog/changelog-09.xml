@@ -18,7 +18,7 @@
         </sql>
      </changeSet>
 
-    <changeSet id="2025.04.23.7" author="Andrei">
+    <changeSet id="2025.04.23.102" author="Andrei" dbms="mysql">
         <sql>
             DELETE FROM periods;
             INSERT INTO periods (name)

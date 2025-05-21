@@ -22,7 +22,7 @@
             created_at DATETIME,
         </sql>
     </changeSet>
-    <changeSet id="2025.04.16.7" author="Alex" dbms="mysql">
+    <changeSet id="2025.04.16.12" author="Alex" dbms="mysql">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="app_roles"/>

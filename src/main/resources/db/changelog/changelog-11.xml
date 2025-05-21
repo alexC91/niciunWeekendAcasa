@@ -18,7 +18,7 @@
             )
         </sql>
     </changeSet>
-    <changeSet id="2025.04.23.9" author="Andrei"  >
+    <changeSet id="2025.04.23.104" author="Andrei" dbms="mysql">
 
          <sql>
             DELETE FROM types;
@@ -55,7 +55,7 @@
         </sql>
      </changeSet>
 
-     <changeSet id="2025.04.23.11" author="Andrei">
+     <changeSet id="2025.04.23.11" author="Andrei" dbms="mysql">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="types_2"/>
@@ -71,7 +71,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="2025.04.23.13" author="Andrei">
+    <changeSet id="2025.04.23.13" author="Andrei" dbms="mysql">
      <sql>
             DELETE FROM types_2;
             INSERT INTO types_2 (name, type_id)

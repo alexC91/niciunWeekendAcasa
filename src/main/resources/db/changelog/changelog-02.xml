@@ -18,7 +18,7 @@
             );
         </sql>
     </changeSet>
-    <changeSet id="2025.04.16.2" author="Alex">
+    <changeSet id="2025.04.16.2" author="Alex" dbms="mysql">
 
         <sql>
             DELETE FROM counties;
@@ -83,7 +83,7 @@
             )
         </sql>
     </changeSet>
-    <changeSet id="2025.04.16.5" author="Alex" >
+    <changeSet id="2025.04.16.11" author="Alex" dbms="mysql">
         <sql>
             DELETE FROM cities;
             INSERT INTO cities (name, county_id)

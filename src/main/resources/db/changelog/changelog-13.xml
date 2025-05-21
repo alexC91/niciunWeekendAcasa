@@ -18,7 +18,7 @@
             )
         </sql>
     </changeSet>
-         <changeSet id="2025.04.23.15" author="Andrei">
+         <changeSet id="2025.04.23.105" author="Andrei" dbms="mysql">
             <sql>
                 DELETE FROM hist_regions;
                 INSERT INTO hist_regions (name)
@@ -50,7 +50,7 @@
             )
         </sql>
     </changeSet>
-        <changeSet id="2025.04.23.17" author="Andrei">
+        <changeSet id="2025.04.23.17" author="Andrei" dbms="mysql">
             <sql>
                 DELETE FROM ethno_regions;
                 INSERT INTO ethno_regions (name, hist_region_id)
