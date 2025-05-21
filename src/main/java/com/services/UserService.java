@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserDetailsService {
 
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
@@ -26,6 +28,27 @@ public class UserService implements UserDetailsService {
                 .username(user.getEmail())
                 .password(user.getPassword())
                 .roles("USER")
+                .build();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Users appUser = userRepository.findByEmail(email);
+
+        if (appUser == null) {
+            log.warn("Login failed: user with email '{}' not found", email);
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
+
+        if (appUser.getIsActivated() != (byte)1) {
+            log.warn("Login failed for '{}': account not activated (isActivated={})",
+                    email, appUser.getIsActivated());
+            throw new DisabledException("Account is not activated");
+        }
+
+        return User.withUsername(appUser.getEmail())
+                .password(appUser.getPassword())
+                .roles(/* eventuale roluri */)
                 .build();
     }
 }

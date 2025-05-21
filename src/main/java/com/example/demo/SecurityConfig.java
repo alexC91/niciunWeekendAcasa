@@ -36,17 +36,13 @@ public class SecurityConfig {
                                 "/services",
                                 "/contact",
                                 "/register",
-                                "/register1",
-                                "/login1",
+                                "/verify",
                                 "/counties",
                                 "/cities",       // your test page
-                                "/news",
-                                "/map",
-                                "/error/**",
-                                "/css/**",
-                                "/js/**",
-                                "/images/**"
+                                "/error/**"
                         ).permitAll()
+                        // static assets
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         // everything else requires authentication
                         .anyRequest().permitAll()
                 )

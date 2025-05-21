@@ -21,6 +21,11 @@ import java.util.Map;
 @EnableJpaRepositories("com.repositories")
 @EntityScan("com.linkDatabase")
 @EnableDiscoveryClient
+@EntityScan(basePackages = {
+		"com.linkDatabase",
+		"com.example.demo"
+})
+
 public class DemoApplication {
 
 	public static void main(String[] args) {
@@ -38,17 +43,6 @@ public class DemoApplication {
 			// 2. Test email configuration
 			testEmailConfiguration();
 
-			// 3. System readiness check
-			System.out.println("\n=== System Status ===");
-			System.out.println("Database: OK");
-			System.out.println("Spring Context: OK");
-			System.out.println("Server Port: 9090");
-
-			// 4. User instructions
-			printUserInstructions();
-
-			System.out.println("\n=== Application Started Successfully ===");
-
 		} catch (Exception e) {
 			System.err.println("\n!!! Application Startup Failed !!!");
 			e.printStackTrace();
@@ -56,22 +50,13 @@ public class DemoApplication {
 		}
 	}
 
-//	private static void testDatabaseConnection() throws Exception {
-//		System.out.println("\n[1/3] Testing database connection...");
-//		JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
-//		Map<String, Object> result = jdbcTemplate.queryForMap("SELECT 13 as test_value, NOW() as timestamp");
-//		System.out.println("Database connection successful:");
-//		result.forEach((key, value) -> System.out.printf("%-15s: %s%n", key, value));
-//	}
-
-	private static void testEmailConfiguration() {
-		System.out.println("\n[2/3] Testing email configuration...");
-		boolean emailConfigOk = Email.testEmailConfiguration();
-		if (emailConfigOk) {
-			System.out.println("Email configuration test passed");
-		} else {
-			System.out.println("Email configuration test failed - check logs for details");
-		}
+	public static SimpleDriverDataSource getConnection(SimpleDriverDataSource dataSource) throws ClassNotFoundException {
+		dataSource.setDriverClass(com.microsoft.sqlserver.jdbc.SQLServerDriver.class);
+		//A se scimba  "jdbc:sqlserver://localhost:1433;  cu "jdbc:sqlserver://localhost:52122;
+		dataSource.setUrl("jdbc:sqlserver://localhost:1433; databaseName=niciunWeekendAcasa;trustServerCertificate=false;encrypt=false");
+		dataSource.setUsername("root");
+		dataSource.setPassword("admin");
+		return dataSource;
 	}
 
 	private static void printUserInstructions() {

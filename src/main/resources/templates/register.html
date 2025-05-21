@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <!-- Link către fișierul CSS extern -->
+    <link rel="stylesheet" th:href="@{/css/register.css}" />
+    <!--
+      Dacă folosești Bootstrap, poți adăuga și:
+      <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    -->
+</head>
+<body>
+
+<div class="register-container">
+    <h2 class="register-title">Create Account</h2>
+
+    <!-- Afișare mesaj de succes -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Account Created Successfully!</strong>
+        <a class="ms-2" href="/login">Login</a>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <form class="register-form" method="post" th:object="${registerDto}">
+        <!-- CSRF Token -->
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}" />
+
+        <!-- First Name -->
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input id="firstName" class="form-control" th:field="${registerDto.firstName}" />
+            <p th:if="${#fields.hasErrors('firstName')}"
+               th:errorclass="text-danger"
+               th:errors="${registerDto.firstName}"></p>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input id="lastName" class="form-control" th:field="${registerDto.lastName}" />
+            <p th:if="${#fields.hasErrors('lastName')}"
+               th:errorclass="text-danger"
+               th:errors="${registerDto.lastName}"></p>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" class="form-control" th:field="${registerDto.email}" />
+            <p th:if="${#fields.hasErrors('email')}"
+               th:errorclass="text-danger"
+               th:errors="${registerDto.email}"></p>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label for="Password">Password*</label>
+            <input id="Password" class="form-control" type="password" th:field="${registerDto.password}" />
+            <p th:if="${#fields.hasErrors('password')}"
+               th:errorclass="text-danger"
+               th:errors="${registerDto.password}"></p>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password*</label>
+            <input id="confirmPassword" class="form-control" type="password" th:field="${registerDto.confirmPassword}" />
+            <p th:if="${#fields.hasErrors('confirmPassword')}"
+               th:errorclass="text-danger"
+               th:errors="${registerDto.confirmPassword}"></p>
+        </div>
+
+        <!-- Butoane -->
+        <div class="form-actions">
+            <button class="btn-submit" type="submit">Submit</button>
+            <a class="btn-cancel" th:href="@{/}">Cancel</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

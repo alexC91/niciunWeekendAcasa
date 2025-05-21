@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="2025.04.23.5" author="Andrei" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="periods"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE periods(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL
+            )
+        </sql>
+     </changeSet>
+
+    <changeSet id="2025.04.23.7" author="Andrei">
+        <sql>
+            DELETE FROM periods;
+            INSERT INTO periods (name)
+            VALUES
+            ('Antica'),
+            ('Medievala'),
+            ('Renastere'),
+            ('Regatului'),
+            ('Comunista'),
+            ('Contemporana');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

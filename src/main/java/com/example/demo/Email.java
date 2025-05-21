@@ -1,9 +1,16 @@
 package com.example.demo;
 
+import com.repositories.SentEmailRepository;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
-import java.util.Properties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Properties;
+import java.time.LocalDateTime;
+
+
+@Service
 public class Email {
     private static final String SMTP_SERVER = "smtp.gmail.com"; // Gmail SMTP Server
     private static final String USERNAME = "niciunweekendacasa1@gmail.com"; // Your Gmail Address
@@ -11,15 +18,10 @@ public class Email {
     private static final int SMTP_PORT = 587; // TLS Port
     private static final boolean EMAIL_ENABLED = true; // Set to false to disable email sending
 
-    public static void sendEmail(String to, String subject, String body) {
-        // If email is disabled, just log and return
-        if (!EMAIL_ENABLED) {
-            System.out.println("Email sending is disabled. Would have sent to: " + to);
-            System.out.println("Subject: " + subject);
-            System.out.println("Body: " + body);
-            return;
-        }
+    @Autowired
+    private SentEmailRepository sentEmailRepository;
 
+    public void sendEmail(String to, String subject, String body) {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true"); // Enable TLS
@@ -49,50 +51,19 @@ public class Email {
                 msg.setSubject(subject);
                 msg.setText(body);
 
-                // Send Email
-                Transport.send(msg);
-                System.out.println("Email sent successfully to: " + to);
-            } catch (MessagingException | java.io.UnsupportedEncodingException e) {
-                System.out.println("Error sending email: " + e.getMessage());
-                e.printStackTrace();
-                throw e; // Re-throw to be caught by caller
-            }
-        } catch (Exception e) {
-            System.out.println("Error in email configuration: " + e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("Failed to send email", e);
-        }
-    }
+            // Send Email
+            Transport.send(msg);
+            System.out.println("Email sent successfully to: " + to);
 
-    // Test method to check if email configuration is working
-    public static boolean testEmailConfiguration() {
-        if (!EMAIL_ENABLED) {
-            System.out.println("Email sending is disabled.");
-            return false;
-        }
+            // Salvare în baza de date
+            SentEmail email = new SentEmail();
+            email.setRecipient(to);
+            email.setSubject(subject);
+            email.setContent(body);
+            email.setSentAt(LocalDateTime.now());
+            sentEmailRepository.save(email);
 
-        try {
-            Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", SMTP_SERVER);
-            props.put("mail.smtp.port", SMTP_PORT);
-
-            Session session = Session.getInstance(props, new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(USERNAME, PASSWORD);
-                }
-            });
-
-            Transport transport = session.getTransport("smtp");
-            transport.connect(SMTP_SERVER, USERNAME, PASSWORD);
-            transport.close();
-
-            System.out.println("Email configuration test successful");
-            return true;
-        } catch (Exception e) {
-            System.out.println("Email configuration test failed: " + e.getMessage());
+        } catch (MessagingException | java.io.UnsupportedEncodingException e) {
             e.printStackTrace();
             return false;
         }

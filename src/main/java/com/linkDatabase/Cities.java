@@ -1,7 +1,5 @@
 package com.linkDatabase;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
@@ -17,28 +15,27 @@ public class Cities {
     @NotNull
     private String name;
 
+    // Câmpul countyId va rămâne, dar poți seta insertable/updatable=false
+    // dacă dorești să nu îl modifici direct din entitate
     @Column(name="county_id")
     @NotNull
     private Integer countyId;
 
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    // Maparea relației cu entitatea Counties
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "county_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Counties county;
 
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
+    // Getteri și setteri
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Integer getCountyId() {
-        return countyId;
-    }
-    public void setCountyId(Integer countyId) {
-        this.countyId = countyId;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public Integer getCountyId() { return countyId; }
+    public void setCountyId(Integer countyId) { this.countyId = countyId; }
+
+    public Counties getCounty() { return county; }
+    public void setCounty(Counties county) { this.county = county; }
 }

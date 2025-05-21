@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="2025.05.14.9" author="Alex" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="hist_regions"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE hist_regions(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL
+
+            )
+        </sql>
+    </changeSet>
+         <changeSet id="2025.04.23.15" author="Andrei">
+            <sql>
+                DELETE FROM hist_regions;
+                INSERT INTO hist_regions (name)
+                VALUES
+                ('Dobrogea'),
+                ('Muntenia'),
+                ('Oltenia'),
+                ('Moldova'),
+                ('Bucovina'),
+                ('Maramures'),
+                ('Ardeal'),
+                ('Crisana'),
+                ('Banat');
+
+            </sql>
+        </changeSet>
+    <changeSet id="2025.05.14.10" author="Alex" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ethno_regions"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE ethno(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            FOREIGN KEY (hist_region_id) REFERENCES hist_regions(id)
+
+            )
+        </sql>
+    </changeSet>
+        <changeSet id="2025.04.23.17" author="Andrei">
+            <sql>
+                DELETE FROM ethno_regions;
+                INSERT INTO ethno_regions (name, hist_region_id)
+                VALUES
+                ('Delta Dunarii', (SELECT id FROM hist_regions WHERE name = 'Dobrogea')),
+                ('Dobrogea de Nord', (SELECT id FROM hist_regions WHERE name = 'Dobrogea')),
+                ('Baragan', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Codrii Vlasiei', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Vlasca', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Teleorman', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Campia Boianului', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Buzau', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Sacuieni', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Prahova', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Dambovita', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Tinutul Muscelului', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Valea Topologului', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Tinutul Argesului', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
+                ('Tara Lovistei', (SELECT id FROM hist_regions WHERE name = 'Muntenia/Oltenia')),
+                ('Gorj', (SELECT id FROM hist_regions WHERE name = 'Oltenia')),
+                ('Romanati', (SELECT id FROM hist_regions WHERE name = 'Oltenia')),
+                ('Mehedinti', (SELECT id FROM hist_regions WHERE name = 'Oltenia')),
+                ('Dolj', (SELECT id FROM hist_regions WHERE name = 'Oltenia')),
+                ('Valcea', (SELECT id FROM hist_regions WHERE name = 'Oltenia')),
+                ('Tinutul Covurlui', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Tara Vrancei', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Tinutul Prutului', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Tinutul Barladului', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Valea Trotusului', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Tinutul Bacaului', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Tinutul Romanului', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Tinutul Neamtului', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Baia', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Tinutul Botosanilor', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Tinutul Iesilor', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Valea Bistritei', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
+                ('Tara Dornelor', (SELECT id FROM hist_regions WHERE name = 'Moldova/Bucovina/Ardeal')),
+                ('Tinutul Sucevei', (SELECT id FROM hist_regions WHERE name = 'Bucovina')),
+                ('Tinutul Radautiului', (SELECT id FROM hist_regions WHERE name = 'Bucovina')),
+                ('Tinutul Humorului', (SELECT id FROM hist_regions WHERE name = 'Bucovina')),
+                ('Tinutul Campulung', (SELECT id FROM hist_regions WHERE name = 'Bucovina')),
+                ('Hutulscina', (SELECT id FROM hist_regions WHERE name = 'Bucovina/Maramures')),
+                ('Tara Maramuresului', (SELECT id FROM hist_regions WHERE name = 'Maramures')),
+                ('Giurgeu', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tinutul Secuiesc', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Toplita', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tinutul Reghinului', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Bargau', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Nasaudului', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Buzaielor', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Barsei', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Fagarasului', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Marginimea Sibiului', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tinutul Sasesc', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Momarlanilor', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Hategului', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tinutul Padurenilor', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Hunedoara', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Mocanilor', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Motilor', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tinutul Trascaului', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Valea Muresului', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Calatei', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Somes', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Almas', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Lapusului', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Chioarului', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Campia Transilvaniei', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
+                ('Tara Oasului', (SELECT id FROM hist_regions WHERE name = 'Crisana')),
+                ('Tinutul Codrului', (SELECT id FROM hist_regions WHERE name = 'Crisana')),
+                ('Tinutul Barcaului', (SELECT id FROM hist_regions WHERE name = 'Crisana')),
+                ('Satmar', (SELECT id FROM hist_regions WHERE name = 'Crisana')),
+                ('Tara Silvaniei', (SELECT id FROM hist_regions WHERE name = 'Crisana')),
+                ('Tara Beiusului', (SELECT id FROM hist_regions WHERE name = 'Crisana')),
+                ('Tara Zarandului', (SELECT id FROM hist_regions WHERE name = 'Crisana')),
+                ('Bihor', (SELECT id FROM hist_regions WHERE name = 'Crisana')),
+                ('Arad', (SELECT id FROM hist_regions WHERE name = 'Crisana')),
+                ('Torontal', (SELECT id FROM hist_regions WHERE name = 'Banat')),
+                ('Lipova', (SELECT id FROM hist_regions WHERE name = 'Banat')),
+                ('Tara Fagetului', (SELECT id FROM hist_regions WHERE name = 'Banat')),
+                ('Severin', (SELECT id FROM hist_regions WHERE name = 'Banat')),
+                ('Valea Bistrei', (SELECT id FROM hist_regions WHERE name = 'Banat')),
+                ('Timis', (SELECT id FROM hist_regions WHERE name = 'Banat')),
+                ('Caras', (SELECT id FROM hist_regions WHERE name = 'Banat')),
+                ('Tara Almajului', (SELECT id FROM hist_regions WHERE name = 'Banat')),
+                ('Clisura Dunarii', (SELECT id FROM hist_regions WHERE name = 'Banat'));
+
+         </sql>
+     </changeSet>
+</databaseChangeLog>

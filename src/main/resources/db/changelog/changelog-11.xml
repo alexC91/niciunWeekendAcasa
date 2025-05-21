@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="2025.05.14.8" author="Alex" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="types"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE types(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL
+
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="2025.04.23.9" author="Andrei"  >
+
+         <sql>
+            DELETE FROM types;
+            INSERT INTO types (name)
+            VALUES
+            ('Biserica'),
+            ('Cale de Transport'),
+            ('Locuinta'),
+            ('Cascada'),
+            ('Cetate'),
+            ('Edificiu Turistic'),
+            ('Industrial'),
+            ('Institutie de Invatamant'),
+            ('Institutie Publica'),
+            ('Lac'),
+            ('Manastire'),
+            ('Monument'),
+            ('Mosie'),
+            ('Muzeu'),
+            ('Padure'),
+            ('Palat'),
+            ('Peisaj Antropic'),
+            ('Peisaj Natural'),
+            ('Pestera'),
+            ('Poiana'),
+            ('Rau'),
+            ('Relief Montan'),
+            ('Stanca'),
+            ('Statie de Calatorie'),
+            ('Turn'),
+            ('Vale'),
+            ('Varf Montan'),
+            ('Zona de Agrement');
+        </sql>
+     </changeSet>
+
+     <changeSet id="2025.04.23.11" author="Andrei">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="types_2"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE types_2 (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            type_id INT,
+            FOREIGN KEY (type_id) REFERENCES types(id)
+            )
+        </sql>
+    </changeSet>
+
+    <changeSet id="2025.04.23.13" author="Andrei">
+     <sql>
+            DELETE FROM types_2;
+            INSERT INTO types_2 (name, type_id)
+            VALUES
+            ('Evanghelica', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Reformata', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Unitariana', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Greco-Catolica', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Lipoveneasca', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Ortodoxa Sarba', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Moschee', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Armeana', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Ortodoxa Romana', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Romano-Catolica', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Sinagoga', (SELECT id FROM types WHERE name = 'Biserica')),
+            ('Biserica de Lemn', (SELECT id FROM types WHERE name = 'Biserica')),
+
+            ('Rutiera', (SELECT id FROM types WHERE name = 'Cale de Transport')),
+            ('Feroviara', (SELECT id FROM types WHERE name = 'Cale de Transport')),
+            ('Pietonala', (SELECT id FROM types WHERE name = 'Cale de Transport')),
+
+            ('Casa', (SELECT id FROM types WHERE name = 'Locuinta')),
+            ('Castel', (SELECT id FROM types WHERE name = 'Locuinta')),
+            ('Conac', (SELECT id FROM types WHERE name = 'Locuinta')),
+            ('Cula', (SELECT id FROM types WHERE name = 'Locuinta')),
+
+            ('Baie Publica', (SELECT id FROM types WHERE name = 'Edificiu Turistic')),
+            ('Biblioteca', (SELECT id FROM types WHERE name = 'Edificiu Turistic')),
+            ('Casa de Cultura', (SELECT id FROM types WHERE name = 'Edificiu Turistic')),
+            ('Cazino', (SELECT id FROM types WHERE name = 'Edificiu Turistic')),
+            ('Local', (SELECT id FROM types WHERE name = 'Edificiu Turistic')),
+            ('Sala de Spectacole', (SELECT id FROM types WHERE name = 'Edificiu Turistic')),
+            ('Unitate Cazare', (SELECT id FROM types WHERE name = 'Edificiu Turistic')),
+
+            ('Depozit Industrial', (SELECT id FROM types WHERE name = 'Industrial')),
+            ('Magazin', (SELECT id FROM types WHERE name = 'Industrial')),
+            ('Extractie Resurse', (SELECT id FROM types WHERE name = 'Industrial')),
+            ('Productie Consumabile', (SELECT id FROM types WHERE name = 'Industrial')),
+            ('Productie Energetica', (SELECT id FROM types WHERE name = 'Industrial')),
+            ('Utilaj Industrial', (SELECT id FROM types WHERE name = 'Industrial')),
+            ('Uzina', (SELECT id FROM types WHERE name = 'Industrial')),
+
+            ('Facultate', (SELECT id FROM types WHERE name = 'Institutie de Invatamant')),
+            ('Gradinita', (SELECT id FROM types WHERE name = 'Institutie de Invatamant')),
+            ('Liceu', (SELECT id FROM types WHERE name = 'Institutie de Invatamant')),
+            ('Scoala', (SELECT id FROM types WHERE name = 'Institutie de Invatamant')),
+            ('Institut de Cercetare', (SELECT id FROM types WHERE name = 'Institutie de Invatamant')),
+            
+            ('Financiara', (SELECT id FROM types WHERE name = 'Institutie Publica')),
+            ('Judiciara', (SELECT id FROM types WHERE name = 'Institutie Publica')),
+            ('Militara', (SELECT id FROM types WHERE name = 'Institutie Publica')),
+            ('Medicala', (SELECT id FROM types WHERE name = 'Institutie Publica')),
+            ('Administrativa', (SELECT id FROM types WHERE name = 'Institutie Publica')),
+            ('Sociala', (SELECT id FROM types WHERE name = 'Institutie Publica')),
+            ('Servicii Publice', (SELECT id FROM types WHERE name = 'Institutie Publica')),
+          
+            ('Evanghelica', (SELECT id FROM types WHERE name = 'Manastire')),
+            ('Reformata', (SELECT id FROM types WHERE name = 'Manastire')),
+            ('Unitariana', (SELECT id FROM types WHERE name = 'Manastire')),
+            ('Greco-Catolica', (SELECT id FROM types WHERE name = 'Manastire')),
+            ('Lipoveneasca', (SELECT id FROM types WHERE name = 'Manastire')),
+            ('Ortodoxa Sarba', (SELECT id FROM types WHERE name = 'Manastire')),
+            ('Moschee', (SELECT id FROM types WHERE name = 'Manastire')),
+            ('Ortodoxa Armeana', (SELECT id FROM types WHERE name = 'Manastire')),
+            ('Ortodoxa Romana', (SELECT id FROM types WHERE name = 'Manastire')),
+            ('Romano-Catolica', (SELECT id FROM types WHERE name = 'Manastire')),
+            ('Sinagoga', (SELECT id FROM types WHERE name = 'Manastire')),
+
+            ('Troita', (SELECT id FROM types WHERE name = 'Monument')),
+            ('Monument Elogios', (SELECT id FROM types WHERE name = 'Monument')),
+            ('Arta Stradala', (SELECT id FROM types WHERE name = 'Monument')),
+            ('Statuie', (SELECT id FROM types WHERE name = 'Monument')),
+            ('Fantana Arteziana', (SELECT id FROM types WHERE name = 'Monument')),
+            ('Cimitir', (SELECT id FROM types WHERE name = 'Monument')),
+            ('Mausoleu', (SELECT id FROM types WHERE name = 'Monument')),
+
+            ('Curte Domneasca', (SELECT id FROM types WHERE name = 'Mosie')),
+            ('Domeniu Boieresc', (SELECT id FROM types WHERE name = 'Mosie')),
+
+            ('Casa Memoriala', (SELECT id FROM types WHERE name = 'Muzeu')),
+            ('Expozitie', (SELECT id FROM types WHERE name = 'Muzeu')),
+            ('Muzeu de Arta', (SELECT id FROM types WHERE name = 'Muzeu')),
+            ('Muzeu de Etnografie', (SELECT id FROM types WHERE name = 'Muzeu')),
+            ('Muzeu de Istorie', (SELECT id FROM types WHERE name = 'Muzeu')),
+            ('Muzeu de Stiinte Naturale', (SELECT id FROM types WHERE name = 'Muzeu')),
+            ('Muzeu Tehnic', (SELECT id FROM types WHERE name = 'Muzeu')),
+            ('Observator Astronomic', (SELECT id FROM types WHERE name = 'Muzeu'))
+
+            ('Activitate Vulcanica', (SELECT id FROM types WHERE name = 'Peisaj Natural')),
+            ('Relief de Coasta', (SELECT id FROM types WHERE name = 'Peisaj Natural')),
+            ('Movila', (SELECT id FROM types WHERE name = 'Peisaj Natural')),
+            ('Insula', (SELECT id FROM types WHERE name = 'Peisaj Natural')),
+            ('Mlastina', (SELECT id FROM types WHERE name = 'Peisaj Natural')),
+            ('Varf de Deal', (SELECT id FROM types WHERE name = 'Peisaj Natural')),
+
+            ('Pestera cu Apa', (SELECT id FROM types WHERE name = 'Pestera')),
+
+            ('Izvor', (SELECT id FROM types WHERE name = 'Rau')),
+
+            ('Culme Muntoasa', (SELECT id FROM types WHERE name = 'Relief Montan')),
+            ('Sa Montana', (SELECT id FROM types WHERE name = 'Relief Montan')),
+            ('Trecatoare Montana', (SELECT id FROM types WHERE name = 'Relief Montan')),
+
+            ('Fereastra', (SELECT id FROM types WHERE name = 'Stanca')),
+
+            ('Aeroport', (SELECT id FROM types WHERE name = 'Statie de Calatorie')),
+            ('Autogara', (SELECT id FROM types WHERE name = 'Statie de Calatorie')),
+            ('Gara Feroviara', (SELECT id FROM types WHERE name = 'Statie de Calatorie')),
+            ('Port', (SELECT id FROM types WHERE name = 'Statie de Calatorie')),
+            ('Statie de Metrou', (SELECT id FROM types WHERE name = 'Statie de Calatorie')),
+
+            ('Far', (SELECT id FROM types WHERE name = 'Turn')),
+            ('Foisor de Foc', (SELECT id FROM types WHERE name = 'Turn')),
+            ('Turn de Apa', (SELECT id FROM types WHERE name = 'Turn')),
+            ('Turn de Cetate', (SELECT id FROM types WHERE name = 'Turn')),
+            ('Turn Industrial', (SELECT id FROM types WHERE name = 'Turn')),
+
+            ('Chei', (SELECT id FROM types WHERE name = 'Vale')),
+            ('Defileu', (SELECT id FROM types WHERE name = 'Vale')),
+            ('Rapa', (SELECT id FROM types WHERE name = 'Vale')),
+
+            ('Cel Mai Inalt Varf', (SELECT id FROM types WHERE name = 'Varf Montan')),
+
+            ('Arena Sportiva', (SELECT id FROM types WHERE name = 'Zona de Agrement')),
+            ('Extrem Geografic', (SELECT id FROM types WHERE name = 'Zona de Agrement')),
+            ('Gradina Botanica', (SELECT id FROM types WHERE name = 'Zona de Agrement')),
+            ('Gradina Zoologica', (SELECT id FROM types WHERE name = 'Zona de Agrement')),
+            ('Parc', (SELECT id FROM types WHERE name = 'Zona de Agrement')),
+            ('Salina', (SELECT id FROM types WHERE name = 'Zona de Agrement'));
+
+        </sql>
+    </changeSet>
+</databaseChangeLog>

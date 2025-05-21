@@ -1,0 +1,96 @@
+/* Stiluri de bază */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Container general al paginii de înregistrare */
+.register-container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Titlul paginii */
+.register-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Formular de înregistrare */
+.register-form .form-group {
+    margin-bottom: 15px;
+}
+
+.register-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.register-form .form-control {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+/* Afișarea erorilor */
+.text-danger {
+    font-size: 0.9em;
+    margin-top: 5px;
+    color: #dc3545; /* roșu, pentru accent */
+}
+
+/* Butoane */
+.form-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-submit,
+.btn-cancel {
+    padding: 10px 15px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Exemplu de stil pentru butonul de Submit */
+.btn-submit {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+/* Exemplu de stil pentru butonul de Cancel */
+.btn-cancel {
+    background-color: #6c757d;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* Un mic efect la hover */
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+/* Alerta de succes */
+.alert {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #d4edda;
+    border-radius: 4px;
+    background-color: #d4edda;
+    color: #155724;
+}

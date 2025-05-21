@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="2025.05.14.5" author="Alex" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="geo_units"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE geo_units(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            FOREIGN KEY (geo_area_id) REFERENCES geo_areas(id)
+
+        </sql>
+    </changeSet>
+<changeSet id="2025.04.23.6" author="Theodora">
+        <sql>
+            DELETE FROM geo_units;
+            INSERT INTO geo_units (name, geo_area_id)
+            VALUES
+            ('Muntii Dobrogei', (SELECT id FROM geo_areas WHERE name = 'Munte')),
+	        ('Delta Dunarii', (SELECT id FROM geo_areas WHERE name = 'Campie')),
+            ('Podisul Dobrogei' (SELECT id FROM geo_areas WHERE name = 'Deal')),
+            ('Campia Romana', (SELECT id FROM geo_areas WHERE name = 'Campie')),
+            ('Podisul Moldovei',(SELECT id FROM geo_areas WHERE name = 'Deal')),
+            ('Carpatii Orientali',(SELECT id FROM geo_areas WHERE name = 'Munte')),
+            ('Carpatii Meridionali',(SELECT id FROM geo_areas WHERE name = 'Munte')),
+            ('Carpatii Occidentali',(SELECT id FROM geo_areas WHERE name = 'Munte')),
+            ('Subcarpatii',(SELECT id FROM geo_areas WHERE name = 'Munte')),
+            ('Podisul Getic',(SELECT id FROM geo_areas WHERE name = 'Deal')),
+            ('Campia de Vest' ,(SELECT id FROM geo_areas WHERE name = 'Campie')),
+            ('Podisul Transilvaniei', (SELECT id FROM geo_areas WHERE name = 'Deal')),
+            ('Dealurile de Vest',(SELECT id FROM geo_areas WHERE name = 'Deal'));
+        </sql>
+</changeSet>      
+</databaseChangeLog>

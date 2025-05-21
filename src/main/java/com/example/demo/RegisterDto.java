@@ -23,28 +23,27 @@ public class RegisterDto {
     @NotEmpty(message = "Confirmarea parolei este obligatorie")
     private String confirmPassword;
 
-    // Getters and Setters
-    public String getFirstName() {
+    public @NotEmpty String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(@NotEmpty String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    public @NotEmpty String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(@NotEmpty String lastName) {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
+    public @NotEmpty @Email String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@NotEmpty @Email String email) {
         this.email = email;
     }
 
