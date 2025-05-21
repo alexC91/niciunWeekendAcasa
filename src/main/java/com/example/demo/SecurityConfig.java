@@ -37,13 +37,12 @@ public class SecurityConfig {
                                 "/contact",
                                 "/register",
                                 "/verify",
-                                "/counties",
-                                "/cities",       // your test page
                                 "/error/**"
                         ).permitAll()
                         // static assets
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         // everything else requires authentication
+                        .requestMatchers("/counties", "/cities").authenticated()
                         .anyRequest().permitAll()
                 )
                 // 2) Form-login customization
