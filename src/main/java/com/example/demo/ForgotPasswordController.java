@@ -52,7 +52,7 @@ public class ForgotPasswordController {
                 "Dacă nu ai solicitat resetarea parolei, ignoră acest email.\n\n" +
                 "Mulțumim!";
 
-        Email.sendEmail(email, subject, body);
+//        Email.sendEmail(email, subject, body);
 
         model.addAttribute("success", true);
         model.addAttribute("message", "Un email cu instrucțiuni pentru resetarea parolei a fost trimis.");

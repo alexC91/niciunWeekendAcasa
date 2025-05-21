@@ -51,21 +51,22 @@ public class Email {
                 msg.setSubject(subject);
                 msg.setText(body);
 
-            // Send Email
-            Transport.send(msg);
-            System.out.println("Email sent successfully to: " + to);
+                // Send Email
+                Transport.send(msg);
+                System.out.println("Email sent successfully to: " + to);
 
-            // Salvare în baza de date
-            SentEmail email = new SentEmail();
-            email.setRecipient(to);
-            email.setSubject(subject);
-            email.setContent(body);
-            email.setSentAt(LocalDateTime.now());
-            sentEmailRepository.save(email);
+                // Salvare în baza de date
+                SentEmail email = new SentEmail();
+                email.setRecipient(to);
+                email.setSubject(subject);
+                email.setContent(body);
+                email.setSentAt(LocalDateTime.now());
+                sentEmailRepository.save(email);
 
-        } catch (MessagingException | java.io.UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return false;
+            } catch (MessagingException | java.io.UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } finally {
+
         }
-    }
-}
+}}

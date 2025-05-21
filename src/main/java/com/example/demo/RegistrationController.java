@@ -134,7 +134,7 @@ public class RegistrationController {
                         "Pentru a-ți activa contul, accesează link-ul de mai jos:\n\n" +
                         verificationLink + "\n\nMulțumim!";
 
-                Email.sendEmail(newUser.getEmail(), subject, body);
+//                Email.sendEmail(newUser.getEmail(), subject, body);
                 System.out.println("Verification email sent to: " + newUser.getEmail());
                 System.out.println("Verification link: " + verificationLink); // Log the link for debugging
             } catch (Exception e) {
@@ -157,7 +157,7 @@ public class RegistrationController {
         }
     }
 
-    @GetMapping("/verify")
+    @GetMapping("/verify1")
     public String verifyAccount(@RequestParam("token") String token, Model model) {
         try {
             System.out.println("Verifying token: " + token); // Log the token for debugging
@@ -276,7 +276,7 @@ public class RegistrationController {
                         "Pentru a-ți activa contul, accesează link-ul de mai jos:\n\n" +
                         verificationLink + "\n\nMulțumim!";
 
-                Email.sendEmail(user.getEmail(), subject, body);
+//                Email.sendEmail(user.getEmail(), subject, body);
                 System.out.println("Resent verification link: " + verificationLink); // Log the link for debugging
             } catch (Exception e) {
                 System.out.println("Error sending email: " + e.getMessage());

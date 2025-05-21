@@ -19,10 +19,10 @@ import java.util.Map;
 		"com.linkDatabase"
 })
 @EnableJpaRepositories("com.repositories")
-@EntityScan("com.linkDatabase")
 @EnableDiscoveryClient
 @EntityScan(basePackages = {
 		"com.linkDatabase",
+		"com.repositories",
 		"com.example.demo"
 })
 
@@ -37,11 +37,6 @@ public class DemoApplication {
 		try {
 			System.out.println("\n=== Application Startup Checks ===");
 
-			// 1. Test database connection
-//			testDatabaseConnection();
-
-			// 2. Test email configuration
-			testEmailConfiguration();
 
 		} catch (Exception e) {
 			System.err.println("\n!!! Application Startup Failed !!!");
@@ -66,13 +61,4 @@ public class DemoApplication {
 		System.out.println("3. Manual activation: http://localhost:9090/manual-activate?email=user@example.com");
 		System.out.println("4. Check DB: Verify users in 'app_users' table");
 	}
-
-//	private static SimpleDriverDataSource getDataSource() throws ClassNotFoundException {
-//		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-//		dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
-//		dataSource.setUrl("jdbc:mysql://localhost:3306/proiect_java?useSSL=false&serverTimezone=UTC");
-//		dataSource.setUsername("daniel");
-//		dataSource.setPassword("1234");
-//		return dataSource;
-//	}
 }

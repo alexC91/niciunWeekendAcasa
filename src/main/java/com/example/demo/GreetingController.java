@@ -44,11 +44,6 @@ public class GreetingController {
         return "login";
     }
 
-    @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("activePage", "register");
-        return "signup";
-    }
     @GetMapping("/map")
     public String map(Model model) {
         model.addAttribute("activePage", "map");

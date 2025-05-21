@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -42,8 +41,8 @@ public class AccountController {
             result.addError(new FieldError("registerDto", "confirmPassword", "Parolele nu corespund"));
         }
 
-        Users existingUser = repo.findByEmail(registerDto.getEmail());
-        if (existingUser != null) {
+        Optional<Users> existingUserOpt = repo.findByEmail(registerDto.getEmail());
+        if (existingUserOpt.isPresent()) {
             result.addError(new FieldError("registerDto", "email", "Emailul este deja folosit"));
         }
 
@@ -57,18 +56,18 @@ public class AccountController {
             newUser.setFirstName(registerDto.getFirstName());
             newUser.setLastName(registerDto.getLastName());
             newUser.setEmail(registerDto.getEmail());
-            newUser.setCreatedAt(LocalDateTime.now());
-            newUser.setIsActivated((byte) 0);
-            newUser.setIsDisabled((byte) 0);
+            newUser.setCreatedAt(new Date()); // changed to java.util.Date
+            newUser.setIsActivated(false);    // changed to boolean
+            newUser.setIsDisabled(false);     // changed to boolean
             newUser.setPassword(encoder.encode(registerDto.getPassword()));
 
             repo.save(newUser);
 
-            // Generează token de verificare
+            // Generate verification token
             String token = UUID.randomUUID().toString();
             tokenToEmailMap.put(token, newUser.getEmail());
 
-            // Trimite email cu link de activare și salvează-l în DB
+            // Send verification email
             String link = "http://localhost:9090/verify?token=" + token;
             String subject = "Activează-ți contul niciunWeekendAcasa";
             String body = "Salut " + newUser.getFirstName() + ",\n\n" +
@@ -94,13 +93,14 @@ public class AccountController {
             return "verify_result";
         }
 
-        Users user = repo.findByEmail(email);
-        if (user == null) {
+        Optional<Users> userOpt = repo.findByEmail(email);
+        if (userOpt.isEmpty()) {
             model.addAttribute("message", "Utilizatorul nu a fost găsit.");
             return "verify_result";
         }
 
-        user.setIsActivated((byte) 1);
+        Users user = userOpt.get();
+        user.setIsActivated(true); // set activated to true
         repo.saveAndFlush(user);
 
         model.addAttribute("message", "Cont activat! Poți să te loghezi.");

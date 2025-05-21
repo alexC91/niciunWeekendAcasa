@@ -23,8 +23,8 @@ public class ContactController {
 
         try {
             // Send email using the Email class
-            Email.sendEmail("niciunweekendacasa1@yahoo.com", "Mesaj nou: " + subject,
-                    "Ai primit un mesaj nou de la: " + name + " (" + email + ")\n\n" + message);
+//            Email.sendEmail("niciunweekendacasa1@yahoo.com", "Mesaj nou: " + subject,
+//                    "Ai primit un mesaj nou de la: " + name + " (" + email + ")\n\n" + message);
 
             model.addAttribute("success", true);
             model.addAttribute("message", "Mesajul tău a fost trimis cu succes!");
