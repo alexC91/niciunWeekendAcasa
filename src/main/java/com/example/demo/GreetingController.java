@@ -73,4 +73,10 @@ public class GreetingController {
         model.addAttribute("activePage", "terms");
         return "terms";
     }
+
+    @GetMapping("/atractie")
+    public String atractie(Model model) {
+        model.addAttribute("activePage", "atractie");
+        return "atractie";
+    }
 }

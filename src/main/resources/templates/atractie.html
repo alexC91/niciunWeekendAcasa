@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head"></head>
+
+<body>
+<!-- Cookie banner, meniu mobil, header -->
+<div th:replace="cookiebanner :: #cookie-banner"></div>
+<script th:src="@{/js/cookie.js}"></script>
+<script th:src="@{/js/atractie.js}"></script>
+
+<!-- Fancybox -->
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+
+<!-- Stilul propriu al paginii -->
+<link th:href="@{/css/atractie.css}" rel="stylesheet"/>
+
+<div th:replace="mobilemenu :: gigel"></div>
+<nav th:replace="header :: nav"></nav>
+
+<!-- Hero -->
+<div class="hero overlay">
+    <div class="img-bg rellax">
+        <img src="images/hero_2.jpg" alt="Image" class="img-fluid">
+    </div>
+</div>
+
+<!-- Secțiunea principală -->
+<section id="bran-attraction" class="section-gap">
+    <div class="container" data-aos="fade-up">
+        <div class="row align-items-start"><!-- IMPORTANT: ancorează galeria sus -->
+            <!--------Coloana cu text-------->
+            <div class="col-lg-6">
+                <h2 class="section-title">BRAN CASTLE</h2>
+                <p>
+                    Surrounded by the Bucegi Mountains, Bran Castle is one of the most famous medieval fortresses in
+                    Eastern Europe, renowned worldwide as “Dracula's Castle.” Built in the 14th century, the castle
+                    blends real history with the myth of Vlad the Impaler, offering visitors narrow passageways, royal
+                    chambers, and a spectacular panorama over the Rucăr-Bran corridor.
+                </p>
+                <p>
+                    Beyond its legendary connection to Bram Stoker's Dracula, the castle served as a royal residence and
+                    played an important role in the defense of the Transylvanian border. Today, it houses a museum
+                    showcasing collections of furniture, armor, and historical artifacts. The surrounding area includes
+                    picturesque hiking trails and traditional Romanian architecture, making it a perfect destination for
+                    cultural and outdoor tourism.
+                </p>
+
+                <ul class="highlights">
+                    <li><i class="fa fa-check-circle"></i> Interactive medieval museum</li>
+                    <li><i class="fa fa-check-circle"></i> Panoramic terrace on the bastion</li>
+                    <li><i class="fa fa-check-circle"></i> Nearby hiking trails</li>
+                    <li><i class="fa fa-check-circle"></i> Historical exhibitions and themed events</li>
+                    <li><i class="fa fa-check-circle"></i> Gift shop and local crafts</li>
+                </ul>
+
+                <a href="#info" class="btn-cta mt-3">Plan Your Visit</a>
+            </div>
+
+            <!--------Coloana cu galerie-------->
+            <div class="col-lg-6">
+                <div class="gallery-grid">
+                    <a data-fancybox="gallery" href="images/bran_1.jpg">
+                        <img src="images/bran_1.jpg" alt="Bran interior">
+                    </a>
+                    <a data-fancybox="gallery" href="images/bran_2.jpeg">
+                        <img src="images/bran_2.jpeg" alt="Inner courtyard">
+                    </a>
+                    <a data-fancybox="gallery" href="images/bran_3.jpg">
+                        <img src="images/bran_3.jpg" alt="Main tower">
+                    </a>
+                    <a data-fancybox="gallery" href="images/bran_4.jpg">
+                        <img src="images/bran_4.jpg" alt="Panoramic view">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visitor info -->
+    <div id="info" class="info-strip" data-aos="fade-up" data-aos-delay="150">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6 info-item">
+                    <h3 class="info-title">Opening Hours</h3>
+                    <p>Mon–Sun: 09:00 – 18:00</p>
+                </div>
+                <div class="col-md-3 col-6 info-item">
+                    <h3 class="info-title">Ticket</h3>
+                    <p>Adults – 60&nbsp;RON<br>Students – 35&nbsp;RON</p>
+                </div>
+                <div class="col-md-3 col-6 info-item">
+                    <h3 class="info-title">Tour Duration</h3>
+                    <p>≈ 1&nbsp;h&nbsp;30&nbsp;min</p>
+                </div>
+                <div class="col-md-3 col-6 info-item">
+                    <h3 class="info-title">Audio Guide</h3>
+                    <p>Available in 8 languages</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map -->
+    <div class="map-wrapper" data-aos="zoom-in">
+        <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2741.0956315018305!2d25.3665276155837!3d45.51517867910162!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b3512d2c0e63fb%3A0xd0d5f00231efef23!2sBran%20Castle!5e0!3m2!1sen!2sro!4v1716280000000"
+                loading="lazy" allowfullscreen></iframe>
+    </div>
+</section>
+
+<section th:replace="footer :: section"></section>
+</body>
+</html>

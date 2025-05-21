@@ -10602,3 +10602,15 @@ textarea {
 .profile-dropdown .dropdown-menu li a:hover {
   background-color: #e0551c;
 }
+
+.team-photo{
+  width: 260px;        /* alege orice lățime fixă */
+  height: 260px;       /* identică pentru pătrat */
+  object-fit: cover;   /* IMPORTANT: taie surplusul */
+  border-radius: 12px; /* colțuri rotunjite opțional */
+  box-shadow: 0 6px 18px rgba(0,0,0,.15);
+}
+
+.photo-top{
+  object-position: top center;  /* arată partea de sus */
+}
