@@ -23,8 +23,27 @@ public class Users {
     private boolean isDisabled;
     private Date createdAt;
 
-    // Add the profilePhoto field
+    // Profile photo path (for backward compatibility)
     private String profilePhoto;
+
+    // Add profile photo data as BLOB
+    @Lob
+    @Column(name = "profile_photo_data", columnDefinition = "LONGBLOB")
+    private byte[] profilePhotoData;
+
+    // Add profile photo content type
+    @Column(name = "profile_photo_content_type")
+    private String profilePhotoContentType;
+
+    // Add cover photo fields after the profile photo fields
+    @Lob
+    @Column(name = "cover_photo_data", columnDefinition = "LONGBLOB")
+    private byte[] coverPhotoData;
+
+    @Column(name = "cover_photo_content_type")
+    private String coverPhotoContentType;
+
+    private String coverPhoto;
 
     // Add fields for additional profile information
     private String mobile;
@@ -60,6 +79,21 @@ public class Users {
     // Add getters and setters for the new fields
     public String getProfilePhoto() { return profilePhoto; }
     public void setProfilePhoto(String profilePhoto) { this.profilePhoto = profilePhoto; }
+
+    public byte[] getProfilePhotoData() { return profilePhotoData; }
+    public void setProfilePhotoData(byte[] profilePhotoData) { this.profilePhotoData = profilePhotoData; }
+
+    public String getProfilePhotoContentType() { return profilePhotoContentType; }
+    public void setProfilePhotoContentType(String profilePhotoContentType) { this.profilePhotoContentType = profilePhotoContentType; }
+
+    public byte[] getCoverPhotoData() { return coverPhotoData; }
+    public void setCoverPhotoData(byte[] coverPhotoData) { this.coverPhotoData = coverPhotoData; }
+
+    public String getCoverPhotoContentType() { return coverPhotoContentType; }
+    public void setCoverPhotoContentType(String coverPhotoContentType) { this.coverPhotoContentType = coverPhotoContentType; }
+
+    public String getCoverPhoto() { return coverPhoto; }
+    public void setCoverPhoto(String coverPhoto) { this.coverPhoto = coverPhoto; }
 
     public String getMobile() { return mobile; }
     public void setMobile(String mobile) { this.mobile = mobile; }

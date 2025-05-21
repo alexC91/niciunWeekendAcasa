@@ -24,7 +24,7 @@
       <div id="content" class="content content-full-width">
         <div class="profile">
           <div class="profile-header">
-            <div class="profile-header-cover"></div>
+            <div class="profile-header-cover" th:style="${user != null && user.coverPhoto != null ? 'background-image: url(' + user.coverPhoto + ');' : ''}"></div>
             <div class="profile-header-content">
               <div class="profile-header-img">
                 <img th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">

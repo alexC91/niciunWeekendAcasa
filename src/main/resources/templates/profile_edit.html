@@ -28,7 +28,7 @@
             <div id="content" class="content content-full-width">
               <div class="profile">
                 <div class="profile-header">
-                  <div class="profile-header-cover"></div>
+                  <div class="profile-header-cover" th:style="${user != null && user.coverPhoto != null ? 'background-image: url(' + user.coverPhoto + ');' : ''}"></div>
                   <div class="profile-header-content">
                     <div class="profile-header-img">
                       <img id="mainProfileImage" th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
@@ -75,6 +75,20 @@
                               <input type="hidden" id="profilePhotoBase64" name="profilePhotoBase64">
                               <small class="text-muted">Max size: 114x114 pixels</small>
                               <div id="compressionStatus" style="display: none; margin-top: 5px; font-size: 12px; color: #666;"></div>
+                            </td>
+                          </tr>
+
+                          <!-- New Cover Photo Row -->
+                          <tr>
+                            <td class="field">Cover Photo</td>
+                            <td>
+                              <input type="file" id="backgroundPhotoInput" accept="image/*" class="form-control-file">
+                              <div style="margin-top:10px; max-width:450px;">
+                                <img id="coverPreview" th:if="${user != null && user.coverPhoto != null}" th:src="${user.coverPhoto}" alt="cover preview" style="width:100%; max-height:140px; border-radius:4px; border:1px solid #ccc;">
+                                <img id="coverPreview" th:unless="${user != null && user.coverPhoto != null}" src="images/hero_2.jpg" alt="cover preview" style="width:100%; max-height:140px; border-radius:4px; border:1px solid #ccc;">
+                              </div>
+                              <input type="hidden" id="coverPhotoBase64" name="coverPhotoBase64">
+                              <small class="text-muted">Recommended ratio ≈ 16:9 (e.g. 1200×675)</small>
                             </td>
                           </tr>
 
@@ -191,7 +205,7 @@
                           <tr>
                             <td class="field"></td>
                             <td class="p-t-10 p-b-10">
-                              <button type="submit" class="btn btn-primary width-150">Update</button>
+                              <button type="submit" id="updateBtn" class="btn btn-primary width-150">Update</button>
                               <button type="button" class="btn btn-primary width-150 m-l-5" onclick="window.location.href='/profile';">Cancel</button>
                             </td>
                           </tr>
@@ -215,7 +229,7 @@
 <!-- Crop Modal -->
 <div id="cropModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.6); z-index:9999; display:flex; justify-content:center; align-items:center;">
   <div style="background:#fff; padding:20px; border-radius:8px; max-width:90vw; max-height:90vh; width:100%; overflow:auto; position:relative;">
-    <h5 style="margin-top:0;">Crop your profile photo</h5>
+    <h5 id="cropTitle" style="margin-top:0;">Crop your profile photo</h5>
     <div style="max-height:70vh; overflow:auto; text-align:center;">
       <img id="cropImage" style="max-width:100%; height:auto; border:1px solid #ccc; border-radius:4px;">
     </div>

@@ -7,26 +7,40 @@ document.addEventListener("DOMContentLoaded", () => {
         JP: ["Tokyo", "Osaka", "Kyoto"],
     }
 
-    const countrySelect = document.getElementById("countrySelect")
-    const citySelect = document.getElementById("citySelect")
-    const cropModal = document.getElementById("cropModal")
-    const cropImage = document.getElementById("cropImage")
-    const profilePhotoInput = document.getElementById("profilePhotoInput")
-    const preview = document.getElementById("photoPreview")
-    const mainImage = document.getElementById("mainProfileImage")
-    const cropConfirm = document.getElementById("cropConfirm")
-    const cropCancel = document.getElementById("cropCancel")
-    const profilePhotoBase64 = document.getElementById("profilePhotoBase64")
-    const compressionStatus = document.getElementById("compressionStatus")
+    // Helper functions
+    const qs = (s) => document.querySelector(s)
+    const id = (s) => document.getElementById(s)
+
+    // Elements
+    const countrySelect = id("countrySelect")
+    const citySelect = id("citySelect")
+    const cropModal = id("cropModal")
+    const cropTitle = id("cropTitle")
+    const cropImage = id("cropImage")
+    const profilePhotoInput = id("profilePhotoInput")
+    const backgroundPhotoInput = id("backgroundPhotoInput")
+    const preview = id("photoPreview")
+    const coverPreview = id("coverPreview")
+    const mainImage = id("mainProfileImage")
+    const coverDiv = qs(".profile-header-cover")
+    const cropConfirm = id("cropConfirm")
+    const cropCancel = id("cropCancel")
+    const profilePhotoBase64 = id("profilePhotoBase64")
+    const coverPhotoBase64 = id("coverPhotoBase64")
+    const compressionStatus = id("compressionStatus")
+    const updateBtn = id("updateBtn")
 
     // Maximum file size in bytes (2MB)
     const MAX_FILE_SIZE = 2 * 1024 * 1024
 
-    let cropper
-    const Cropper = window.Cropper // Declare the Cropper variable
+    // Cropper variables
+    let cropper = null
+    let cropContext = null // 'profile' or 'background'
+    const Cropper = window.Cropper
 
     cropModal.style.display = "none"
 
+    // City selection based on country
     if (countrySelect && citySelect) {
         countrySelect.addEventListener("change", function () {
             const selectedCountry = this.value
@@ -59,46 +73,72 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Profile photo selection
     if (profilePhotoInput) {
         profilePhotoInput.addEventListener("change", function () {
             const file = this.files[0]
             if (!file) return
 
-            const reader = new FileReader()
-            reader.onload = (e) => {
-                cropImage.src = e.target.result
-                cropModal.style.display = "flex"
-
-                if (cropper) {
-                    cropper.destroy()
-                }
-
-                cropper = new Cropper(cropImage, {
-                    aspectRatio: 1,
-                    viewMode: 1,
-                    autoCrop: true,
-                    autoCropArea: 1,
-                    cropBoxResizable: false,
-                    cropBoxMovable: true,
-                    zoomable: false,
-                    scalable: false,
-                    dragMode: "none",
-                    ready() {
-                        const containerData = cropper.getContainerData()
-                        cropper.setCropBoxData({
-                            width: 114,
-                            height: 114,
-                            left: (containerData.width - 114) / 2,
-                            top: (containerData.height - 114) / 2,
-                        })
-                    },
-                })
-            }
-            reader.readAsDataURL(file)
+            cropContext = "profile"
+            startCropping(file)
         })
     }
 
-    // Function to compress image with progressive quality reduction
+    // Cover photo selection
+    if (backgroundPhotoInput) {
+        backgroundPhotoInput.addEventListener("change", function () {
+            const file = this.files[0]
+            if (!file) return
+
+            cropContext = "background"
+            startCropping(file)
+        })
+    }
+
+    // Start cropping process
+    function startCropping(file) {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            cropImage.src = e.target.result
+            cropModal.style.display = "flex"
+
+            if (cropTitle) {
+                cropTitle.textContent = cropContext === "background" ? "Crop your cover photo" : "Crop your profile photo"
+            }
+
+            if (cropper) {
+                cropper.destroy()
+            }
+
+            const aspect = cropContext === "background" ? 6 / 1 : 1
+            const boxW = cropContext === "background" ? 300 : 114
+            const boxH = cropContext === "background" ? 50 : 114
+
+            cropper = new Cropper(cropImage, {
+                aspectRatio: aspect,
+                viewMode: 1,
+                autoCrop: true,
+                autoCropArea: 1,
+                cropBoxResizable: false,
+                cropBoxMovable: true,
+                zoomable: false,
+                scalable: false,
+                dragMode: "move",
+                ready() {
+                    const containerData = cropper.getContainerData()
+                    cropper.setCropBoxData({
+                        width: boxW,
+                        height: boxH,
+                        left: (containerData.width - boxW) / 2,
+                        top: (containerData.height - boxH) / 2,
+                    })
+                },
+            })
+        }
+        reader.readAsDataURL(file)
+    }
+
+    // Image compression function
     async function compressImage(canvas, initialQuality = 0.9, minQuality = 0.1, maxSizeBytes = MAX_FILE_SIZE) {
         let quality = initialQuality
         let dataUrl
@@ -191,45 +231,80 @@ document.addEventListener("DOMContentLoaded", () => {
         return dataUrl
     }
 
+    // Confirm crop action
     if (cropConfirm) {
         cropConfirm.addEventListener("click", async () => {
-            if (cropper) {
-                const canvas = cropper.getCroppedCanvas({
-                    width: 114,
-                    height: 114,
-                    imageSmoothingQuality: "high",
-                })
+            if (!cropper) return
 
-                try {
+            try {
+                if (cropContext === "profile") {
+                    const canvas = cropper.getCroppedCanvas({
+                        width: 114,
+                        height: 114,
+                        imageSmoothingQuality: "high",
+                    })
+
                     // Compress the image with progressive quality reduction
                     const dataUrl = await compressImage(canvas)
 
+                    // Ensure we have a valid image data URL
+                    if (!dataUrl || !dataUrl.startsWith("data:image")) {
+                        throw new Error("Invalid image data generated")
+                    }
+
+                    // Update the preview and form value
                     preview.src = dataUrl
                     if (mainImage) {
                         mainImage.src = dataUrl
                     }
                     if (profilePhotoBase64) {
                         profilePhotoBase64.value = dataUrl
+                        console.log("Profile image data set to form field, length: " + dataUrl.length)
                     }
-                } catch (error) {
-                    console.error("Error compressing image:", error)
-                    alert("There was an error processing your image. Please try a smaller image.")
-                }
+                } else if (cropContext === "background") {
+                    const canvas = cropper.getCroppedCanvas({
+                        width: 600,
+                        height: 100,
+                        imageSmoothingQuality: "high",
+                    })
 
-                cropModal.style.display = "none"
-                cropper.destroy()
-                cropper = null
+                    // Compress the image with progressive quality reduction
+                    const dataUrl = await compressImage(canvas, 0.8, 0.1, 3 * 1024 * 1024)
+
+                    // Ensure we have a valid image data URL
+                    if (!dataUrl || !dataUrl.startsWith("data:image")) {
+                        throw new Error("Invalid image data generated")
+                    }
+
+                    // Update the preview and form value
+                    coverPreview.src = dataUrl
+                    coverDiv.style.backgroundImage = `url('${dataUrl}')`
+                    if (coverPhotoBase64) {
+                        coverPhotoBase64.value = dataUrl
+                        console.log("Cover image data set to form field, length: " + dataUrl.length)
+                    }
+                }
+            } catch (error) {
+                console.error("Error processing image:", error)
+                alert("There was an error processing your image. Please try a smaller image.")
             }
+
+            closeCropper()
         })
     }
 
+    // Cancel crop action
     if (cropCancel) {
-        cropCancel.addEventListener("click", () => {
-            cropModal.style.display = "none"
-            if (cropper) {
-                cropper.destroy()
-                cropper = null
-            }
-        })
+        cropCancel.addEventListener("click", closeCropper)
+    }
+
+    // Close cropper function
+    function closeCropper() {
+        cropModal.style.display = "none"
+        if (cropper) {
+            cropper.destroy()
+            cropper = null
+        }
+        cropContext = null
     }
 })

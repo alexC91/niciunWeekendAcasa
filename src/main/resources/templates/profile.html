@@ -6,6 +6,10 @@
 <div th:replace="cookiebanner :: #cookie-banner"></div>
 <script th:src="@{/js/cookie.js}"></script>
 
+<!-- Add jQuery script before profile_posts.js -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/js/profile_posts.js}"></script>
+
 <div th:replace="mobilemenu :: gigel"></div>
 <nav th:replace="header :: nav"></nav>
 <div class="hero overlay">
@@ -15,6 +19,12 @@
 </div>
 
 <link rel="stylesheet" href="/css/profile.css">
+<link rel="stylesheet" href="/css/profile_posts.css">
+
+<!-- Update the CSRF meta tags to ensure they're properly defined -->
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -23,7 +33,7 @@
         <div class="profile">
           <div class="profile-header">
             <!-- BEGIN profile-header-cover -->
-            <div class="profile-header-cover"></div>
+            <div class="profile-header-cover" th:style="${user != null && user.coverPhoto != null ? 'background-image: url(' + user.coverPhoto + ');' : ''}"></div>
             <!-- END profile-header-cover -->
             <!-- BEGIN profile-header-content -->
             <div class="profile-header-content">
@@ -54,6 +64,19 @@
           </div>
         </div>
         <!-- end profile -->
+
+        <!-- Post creation form -->
+        <div class="post-form-container">
+          <form id="post-form" class="post-form">
+            <textarea id="post-content" placeholder="What's on your mind?" required></textarea>
+            <div class="post-form-actions">
+              <button type="submit">Post</button>
+            </div>
+            <!-- Add CSRF token as hidden input -->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          </form>
+        </div>
+
         <!-- begin profile-content -->
         <div class="profile-content">
           <!-- begin tab-content -->
@@ -61,201 +84,118 @@
             <!-- begin #profile-post tab -->
             <div class="tab-pane fade active show" id="profile-post">
               <!-- begin timeline -->
-              <ul class="timeline">
-                <li>
-                  <!-- begin timeline-time -->
-                  <div class="timeline-time">
-                    <span class="date">today</span>
-                    <span class="time">04:20</span>
-                  </div>
-                  <!-- end timeline-time -->
-                  <!-- begin timeline-icon -->
-                  <div class="timeline-icon">
-                    <a href="javascript:;">&nbsp;</a>
-                  </div>
-                  <!-- end timeline-icon -->
-                  <!-- begin timeline-body -->
-                  <div class="timeline-body">
-                    <div class="timeline-header">
-                      <span class="userimage">
-                        <img th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
-                        <img th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                      </span>
-                      <span class="username">
-                        <a href="javascript:;" th:if="${user != null}" th:text="${user.firstName + ' ' + user.lastName}">User Name</a>
-                        <small></small>
-                      </span>
-                      <span class="pull-right text-muted">18 Views</span>
+              <ul class="timeline" id="posts-container">
+                <!-- Posts will be loaded here -->
+                <th:block th:if="${posts != null && !posts.empty}">
+                  <li th:each="post : ${posts}" th:id="'post-' + ${post.id}">
+                    <!-- begin timeline-time -->
+                    <div class="timeline-time">
+                      <span class="date" th:text="${#dates.format(post.createdAt, 'MMM dd, yyyy')}">today</span>
+                      <span class="time" th:text="${#dates.format(post.createdAt, 'HH:mm')}">04:20</span>
                     </div>
-                    <div class="timeline-content">
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc faucibus turpis quis tincidunt luctus.
-                        Nam sagittis dui in nunc consequat, in imperdiet nunc sagittis.
-                      </p>
+                    <!-- end timeline-time -->
+                    <!-- begin timeline-icon -->
+                    <div class="timeline-icon">
+                      <a href="javascript:;">&nbsp;</a>
                     </div>
-                    <div class="timeline-likes">
-                      <div class="stats-right">
-                        <span class="stats-text">259 Shares</span>
-                        <span class="stats-text">21 Comments</span>
+                    <!-- end timeline-icon -->
+                    <!-- begin timeline-body -->
+                    <div class="timeline-body">
+                      <div class="timeline-header">
+                        <span class="userimage">
+                          <img th:if="${post.user != null && post.user.profilePhoto != null}" th:src="${post.user.profilePhoto}" alt="">
+                          <img th:unless="${post.user != null && post.user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                        </span>
+                        <span class="username">
+                          <a href="javascript:;" th:if="${post.user != null}" th:text="${post.user.firstName + ' ' + post.user.lastName}">User Name</a>
+                          <small></small>
+                        </span>
+                        <span class="pull-right text-muted" th:text="${#dates.format(post.createdAt, 'MMM dd, yyyy HH:mm')}">18 Views</span>
                       </div>
-                      <div class="stats">
-                                    <span class="fa-stack fa-fw stats-icon">
-                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
-                                    <i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
-                                    </span>
-                        <span class="fa-stack fa-fw stats-icon">
-                                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                    <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
-                                    </span>
-                        <span class="stats-total">4.3k</span>
+                      <div class="timeline-content">
+                        <p th:text="${post.content}">
+                          Post content goes here.
+                        </p>
                       </div>
-                    </div>
-                    <div class="timeline-footer">
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a>
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
-                    </div>
-                    <div class="timeline-comment-box">
-                      <div class="user">
-                        <img th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
-                        <img th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                      <div class="timeline-likes">
+                        <div class="stats-right">
+                          <span class="stats-text" th:text="${post.sharesCount} + ' Shares'">0 Shares</span>
+                          <span class="stats-text"><span class="comment-count" th:text="${post.comments != null ? post.comments.size() : 0}">0</span> Comments</span>
+                        </div>
+                        <div class="stats">
+                          <span class="fa-stack fa-fw stats-icon">
+                            <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                            <i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
+                          </span>
+                          <span class="fa-stack fa-fw stats-icon">
+                            <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
+                          </span>
+                          <span class="stats-total likes-count" th:text="${post.likesCount}">0</span>
+                        </div>
                       </div>
-                      <div class="input">
-                        <form action="">
-                          <div class="input-group">
-                            <input type="text" class="form-control rounded-corner" placeholder="Write a comment...">
-                            <span class="input-group-btn p-l-10">
-                              <button class="btn btn-primary f-s-12 rounded-corner" type="button">Comment</button>
-                            </span>
+                      <div class="timeline-footer">
+                        <a href="javascript:;" class="m-r-15 text-inverse-lighter like-button" th:data-post-id="${post.id}">
+                          <i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like
+                        </a>
+                        <a href="javascript:;" class="m-r-15 text-inverse-lighter comment-toggle">
+                          <i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment
+                        </a>
+                        <a href="javascript:;" class="m-r-15 text-inverse-lighter share-button" th:data-post-id="${post.id}">
+                          <i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share
+                        </a>
+                      </div>
+                      <div class="timeline-comment-box">
+                        <div class="user">
+                          <img th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
+                          <img th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                        </div>
+                        <div class="input">
+                          <form class="comment-form" th:data-post-id="${post.id}">
+                            <div class="input-group">
+                              <input type="text" class="form-control rounded-corner comment-input" placeholder="Write a comment...">
+                              <span class="input-group-btn p-l-10">
+                                <button class="btn btn-primary f-s-12 rounded-corner" type="submit">Comment</button>
+                              </span>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="comments-container">
+                        <th:block th:if="${post.comments != null && !post.comments.empty}">
+                          <div class="comment" th:each="comment : ${post.comments}" th:id="'comment-' + ${comment.id}">
+                            <div class="comment-user">
+                              <img th:if="${comment.user != null && comment.user.profilePhoto != null}"
+                                   th:src="${comment.user.profilePhoto}"
+                                   th:alt="${comment.user.firstName + ' ' + comment.user.lastName}"
+                                   class="comment-user-img">
+                              <img th:unless="${comment.user != null && comment.user.profilePhoto != null}"
+                                   src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                   th:alt="${comment.user.firstName + ' ' + comment.user.lastName}"
+                                   class="comment-user-img">
+                              <span class="comment-username" th:text="${comment.user.firstName + ' ' + comment.user.lastName}">User Name</span>
+                            </div>
+                            <div class="comment-content" th:text="${comment.content}">Comment content goes here.</div>
+                            <div class="comment-date" th:text="${#dates.format(comment.createdAt, 'MMM dd, yyyy HH:mm')}">Comment date</div>
                           </div>
-                        </form>
+                        </th:block>
                       </div>
                     </div>
-                  </div>
-                  <!-- end timeline-body -->
-                </li>
-                <li>
-                  <!-- begin timeline-time -->
-                  <div class="timeline-time">
-                    <span class="date">yesterday</span>
-                    <span class="time">20:17</span>
-                  </div>
-                  <!-- end timeline-time -->
-                  <!-- begin timeline-icon -->
+                    <!-- end timeline-body -->
+                  </li>
+                </th:block>
+
+                <!-- Empty state when no posts -->
+                <li th:if="${posts == null || posts.empty}">
                   <div class="timeline-icon">
                     <a href="javascript:;">&nbsp;</a>
                   </div>
-                  <!-- end timeline-icon -->
-                  <!-- begin timeline-body -->
                   <div class="timeline-body">
-                    <div class="timeline-header">
-                      <span class="userimage">
-                        <img th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
-                        <img th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                      </span>
-                      <span class="username" th:if="${user != null}" th:text="${user.firstName + ' ' + user.lastName}">User Name</span>
-                      <span class="pull-right text-muted">82 Views</span>
-                    </div>
-                    <div class="timeline-content">
-                      <p th:if="${user != null && user.country != null}">Location: <span th:text="${user.country}">United States</span></p>
-                      <p th:unless="${user != null && user.country != null}">Location: Not specified</p>
-                    </div>
-                    <div class="timeline-footer">
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a>
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
+                    <div class="text-center p-4">
+                      <h4>No posts yet</h4>
+                      <p>Create your first post to share with your friends!</p>
                     </div>
                   </div>
-                  <!-- end timeline-body -->
-                </li>
-                <li>
-                  <!-- begin timeline-time -->
-                  <div class="timeline-time">
-                    <span class="date">24 February 2014</span>
-                    <span class="time">08:17</span>
-                  </div>
-                  <!-- end timeline-time -->
-                  <!-- begin timeline-icon -->
-                  <div class="timeline-icon">
-                    <a href="javascript:;">&nbsp;</a>
-                  </div>
-                  <!-- end timeline-icon -->
-                  <!-- begin timeline-body -->
-                  <div class="timeline-body">
-                    <div class="timeline-header">
-                      <span class="userimage">
-                        <img th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
-                        <img th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                      </span>
-                      <span class="username" th:if="${user != null}" th:text="${user.firstName + ' ' + user.lastName}">User Name</span>
-                      <span class="pull-right text-muted">1,282 Views</span>
-                    </div>
-                    <div class="timeline-content">
-                      <p class="lead">
-                        <i class="fa fa-quote-left fa-fw pull-left"></i>
-                        Quisque sed varius nisl. Nulla facilisi. Phasellus consequat sapien sit amet nibh molestie placerat. Donec nulla quam, ullamcorper ut velit vitae, lobortis condimentum magna. Suspendisse mollis in sem vel mollis.
-                        <i class="fa fa-quote-right fa-fw pull-right"></i>
-                      </p>
-                    </div>
-                    <div class="timeline-footer">
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a>
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
-                    </div>
-                  </div>
-                  <!-- end timeline-body -->
-                </li>
-                <li>
-                  <!-- begin timeline-time -->
-                  <div class="timeline-time">
-                    <span class="date">10 January 2014</span>
-                    <span class="time">20:43</span>
-                  </div>
-                  <!-- end timeline-time -->
-                  <!-- begin timeline-icon -->
-                  <div class="timeline-icon">
-                    <a href="javascript:;">&nbsp;</a>
-                  </div>
-                  <!-- end timeline-icon -->
-                  <!-- begin timeline-body -->
-                  <div class="timeline-body">
-                    <div class="timeline-header">
-                      <span class="userimage">
-                        <img th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
-                        <img th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                      </span>
-                      <span class="username" th:if="${user != null}" th:text="${user.firstName + ' ' + user.lastName}">User Name</span>
-                      <span class="pull-right text-muted">1,021,282 Views</span>
-                    </div>
-                    <div class="timeline-content">
-                      <h4 class="template-title">
-                        <i class="fa fa-map-marker text-danger fa-fw"></i>
-                        795 Folsom Ave, Suite 600 San Francisco, CA 94107
-                      </h4>
-                      <p>In hac habitasse platea dictumst. Pellentesque bibendum id sem nec faucibus. Maecenas molestie, augue vel accumsan rutrum, massa mi rutrum odio, id luctus mauris nibh ut leo.</p>
-                      <p class="m-t-20">
-                        <img src="../assets/img/gallery/gallery-5.jpg" alt="">
-                      </p>
-                    </div>
-                    <div class="timeline-footer">
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a>
-                      <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
-                    </div>
-                  </div>
-                  <!-- end timeline-body -->
-                </li>
-                <li>
-                  <!-- begin timeline-icon -->
-                  <div class="timeline-icon">
-                    <a href="javascript:;">&nbsp;</a>
-                  </div>
-                  <!-- end timeline-icon -->
-                  <!-- begin timeline-body -->
-                  <div class="timeline-body">
-                    Loading...
-                  </div>
-                  <!-- begin timeline-body -->
                 </li>
               </ul>
               <!-- end timeline -->

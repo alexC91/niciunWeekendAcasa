@@ -1,0 +1,102 @@
+/* Additional styles for posts and comments */
+.comments-container {
+    margin-top: 15px;
+    padding: 0 25px;
+}
+
+.comment {
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.comment:last-child {
+    border-bottom: none;
+}
+
+.comment-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.comment-user-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-username {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.comment-content {
+    margin-left: 40px;
+    font-size: 14px;
+    color: #333;
+}
+
+.comment-date {
+    margin-left: 40px;
+    font-size: 12px;
+    color: #999;
+    margin-top: 3px;
+}
+
+.post-form-container {
+    background: #fff;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.post-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-form textarea {
+    border: 1px solid #e2e7eb;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    resize: none;
+    min-height: 80px;
+}
+
+.post-form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.post-form-actions button {
+    background-color: #348fe2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.post-form-actions button:hover {
+    background-color: #2a72b5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .timeline .timeline-body {
+        margin-left: 15%;
+        margin-right: 5%;
+    }
+
+    .timeline .timeline-time {
+        width: 12%;
+    }
+
+    .timeline .timeline-icon {
+        left: 12%;
+    }
+}

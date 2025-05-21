@@ -61,6 +61,39 @@
     position: relative;
 }
 
+/* Add these styles to ensure text readability over any background image */
+.profile-header-info h4,
+.profile-header-info p {
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), -1px -1px 3px rgba(0, 0, 0, 0.8);
+    position: relative;
+    z-index: 5;
+}
+
+/* Add a semi-transparent overlay behind the text for better readability */
+.profile-header-info {
+    position: relative;
+}
+
+.profile-header-info:before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    top: -10px;
+    bottom: -10px;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3), transparent);
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.profile-header-info h4,
+.profile-header-info p,
+.profile-header-info a {
+    position: relative;
+    z-index: 2;
+}
+
 .b-minus-1,
 .b-minus-10,
 .b-minus-2,
