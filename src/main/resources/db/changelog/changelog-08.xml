@@ -18,14 +18,14 @@
 
         </sql>
     </changeSet>
-<changeSet id="2025.04.23.6" author="Theodora">
+<changeSet id="2025.04.23.65" author="Alex">
         <sql>
             DELETE FROM geo_units;
             INSERT INTO geo_units (name, geo_area_id)
             VALUES
             ('Muntii Dobrogei', (SELECT id FROM geo_areas WHERE name = 'Munte')),
 	        ('Delta Dunarii', (SELECT id FROM geo_areas WHERE name = 'Campie')),
-            ('Podisul Dobrogei' (SELECT id FROM geo_areas WHERE name = 'Deal')),
+            ('Podisul Dobrogei', (SELECT id FROM geo_areas WHERE name = 'Deal')),
             ('Campia Romana', (SELECT id FROM geo_areas WHERE name = 'Campie')),
             ('Podisul Moldovei',(SELECT id FROM geo_areas WHERE name = 'Deal')),
             ('Carpatii Orientali',(SELECT id FROM geo_areas WHERE name = 'Munte')),
