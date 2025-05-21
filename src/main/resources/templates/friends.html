@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="head :: head"></head>
 <body>
 
@@ -13,8 +15,6 @@
   </div>
 </div>
 
-<!-- Eliminăm Bootstrap: -->
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
 <link rel="stylesheet" href="/css/profile.css">
 <link rel="stylesheet" href="/css/friends.css">
 
@@ -27,11 +27,12 @@
             <div class="profile-header-cover"></div>
             <div class="profile-header-content">
               <div class="profile-header-img">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                <img th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
+                <img th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
               </div>
               <div class="profile-header-info">
-                <h4 class="m-t-10 m-b-5">Sean Ngu</h4>
-                <p class="m-b-10">UXUI + Frontend Developer</p>
+                <h4 class="m-t-10 m-b-5" th:if="${user != null}" th:text="${user.firstName + ' ' + user.lastName}">User Name</h4>
+                <p class="m-b-10" th:if="${user != null && user.aboutMe != null}" th:text="${user.aboutMe}">User Description</p>
                 <div style="height: 50px;"></div>
               </div>
             </div>
@@ -83,8 +84,6 @@
   </div>
 </div>
 
-<!-- Fără Bootstrap -->
-<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Script custom dropdown -->

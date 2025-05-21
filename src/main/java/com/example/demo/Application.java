@@ -9,6 +9,12 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class Application {
 
+	static {
+		// Set maximum file upload size
+		System.setProperty("spring.servlet.multipart.max-file-size", "10MB");
+		System.setProperty("spring.servlet.multipart.max-request-size", "10MB");
+	}
+
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(Application.class);
 		app.run(args);

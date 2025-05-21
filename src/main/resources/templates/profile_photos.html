@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="head :: head"></head>
 <body>
 
@@ -19,11 +21,12 @@
         <div class="profile-header-cover"></div>
         <div class="profile-header-content">
             <div class="profile-header-img">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" />
+                <img th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
+                <img th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" />
             </div>
             <div class="profile-header-info">
-                <h4 class="m-t-sm">Clyde Stanley</h4>
-                <p class="m-b-sm">UXUI + Frontend Developer</p>
+                <h4 class="m-t-sm" th:if="${user != null}" th:text="${user.firstName + ' ' + user.lastName}">User Name</h4>
+                <p class="m-b-sm" th:if="${user != null && user.aboutMe != null}" th:text="${user.aboutMe}">User Description</p>
                 <div style="height: 70px;"></div>
             </div>
         </div>
@@ -75,7 +78,6 @@
                             <li><a href="#" data-src="https://www.bootdey.com/image/150x150/008B8B/000000" onclick="openLightbox(event, this)"><img src="https://www.bootdey.com/image/150x150/008B8B/000000" alt="" class="img-portrait" /></a></li>
                             <li><a href="#" data-src="https://www.bootdey.com/image/150x150/DDA0DD/000000" onclick="openLightbox(event, this)"><img src="https://www.bootdey.com/image/150x150/DDA0DD/000000" alt="" /></a></li>
                             <li><a href="#" data-src="https://www.bootdey.com/image/150x150/008B8B/000000" onclick="openLightbox(event, this)"><img src="https://www.bootdey.com/image/150x150/008B8B/000000" alt="" /></a></li>
-
                         </ul>
                     </div>
                 </div>
@@ -83,11 +85,11 @@
         </div>
     </div>
 </div>
-    <section th:replace="footer :: section"></section>
+<section th:replace="footer :: section"></section>
 
 <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
     <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
-    <img id="lightbox-img" class="lightbox-content" src="" alt="">
+    <img id="lightbox-img" class="lightbox-content" src="/placeholder.svg" alt="">
     <a class="lightbox-prev" onclick="changeImage(-1)">&#10094;</a>
     <a class="lightbox-next" onclick="changeImage(1)">&#10095;</a>
 </div>

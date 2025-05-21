@@ -94,8 +94,8 @@ body .fc-icon {
 .profile-header .profile-header-tab {
     background: #fff;
     list-style-type: none;
-    margin: -1.25rem 0 0;
-    padding: 0 0 0 8.75rem;
+    margin: -10px 0 0;
+    padding: 0 0 0 140px;
     border-bottom: 1px solid #c8c7cc;
     white-space: nowrap;
 }
@@ -111,11 +111,11 @@ body .fc-icon {
     text-decoration: none;
     font-weight: 700;
     font-size: 12px;
-    border: none
+    border: none;
 }
 .profile-header .profile-header-tab > li.active > a,
 .profile-header .profile-header-tab > li > a.active {
-    color: #242a30
+    color: #242a30;
 }
 .profile-header .profile-header-content:after,
 .profile-header .profile-header-content:before {
@@ -351,7 +351,7 @@ body .fc-widget-header a {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0, 0, 0, 0.9);
     text-align: center;
 }
 .lightbox-content {
@@ -370,7 +370,8 @@ body .fc-widget-header a {
     cursor: pointer;
     z-index: 10000;
 }
-.lightbox-prev, .lightbox-next {
+.lightbox-prev,
+.lightbox-next {
     cursor: pointer;
     position: absolute;
     top: 50%;

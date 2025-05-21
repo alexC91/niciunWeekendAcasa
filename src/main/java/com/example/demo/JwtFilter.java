@@ -78,6 +78,10 @@ public class JwtFilter extends OncePerRequestFilter {
                     );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Add a request attribute to indicate the user is authenticated
+            request.setAttribute("userAuthenticated", true);
+            request.setAttribute("userEmail", username);
         }
 
         filterChain.doFilter(request, response);

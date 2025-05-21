@@ -9,15 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 public class ForgotPasswordController {
-
-    private static final Map<String, String> resetTokenMap = new ConcurrentHashMap<>();
 
     @Autowired
     private UserRepository userRepository;
@@ -25,89 +23,88 @@ public class ForgotPasswordController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/forgot-password")
-    public String showForgotPasswordForm() {
-        return "forgot_password";
+    @Autowired
+    private Email emailService;
+
+    @GetMapping("/mailresetpassword")
+    public String showMailResetPasswordForm(Model model) {
+        model.addAttribute("activePage", "mailresetpassword");
+        return "mailresetpassword";
     }
 
-    @PostMapping("/forgot-password")
-    public String processForgotPassword(@RequestParam("email") String email, Model model) {
-        Users user = userRepository.findByEmail(email).orElse(null);
+    @PostMapping("/mailresetpassword")
+    public String processResetPasswordRequest(@RequestParam("email") String email, Model model) {
+        Optional<Users> userOptional = userRepository.findByEmail(email);
 
-        if (user == null) {
-            model.addAttribute("error", "Nu există niciun cont cu acest email.");
-            return "forgot_password";
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            String token = UUID.randomUUID().toString();
+            user.setResetToken(token);
+            userRepository.save(user);
+
+            String resetUrl = "http://localhost:9090/resetpassword?token=" + token;
+
+            try {
+                emailService.sendEmail(
+                        email,
+                        "Password Reset Request",
+                        "To reset your password, click the link below:\n" + resetUrl
+                );
+                model.addAttribute("success", true);
+                model.addAttribute("message", "If an account exists with that email, a reset link has been sent.");
+            } catch (Exception e) {
+                model.addAttribute("error", "Error sending email: " + e.getMessage());
+            }
+        } else {
+            // For security reasons, don't reveal that the email doesn't exist
+            model.addAttribute("success", true);
+            model.addAttribute("message", "If an account exists with that email, a reset link has been sent.");
         }
 
-        // Generate reset token
-        String resetToken = UUID.randomUUID().toString();
-        resetTokenMap.put(resetToken, email);
-
-        // Send password reset email
-        String resetLink = "http://localhost:9090/reset-password?token=" + resetToken;
-        String subject = "Resetare parolă niciunWeekendAcasa";
-        String body = "Salut " + user.getFirstName() + ",\n\n" +
-                "Pentru a-ți reseta parola, accesează link-ul de mai jos:\n\n" +
-                resetLink + "\n\n" +
-                "Dacă nu ai solicitat resetarea parolei, ignoră acest email.\n\n" +
-                "Mulțumim!";
-
-        Email.sendEmail(email, subject, body);
-
-        model.addAttribute("success", true);
-        model.addAttribute("message", "Un email cu instrucțiuni pentru resetarea parolei a fost trimis.");
-        return "forgot_password";
+        return "mailresetpassword";
     }
 
-    @GetMapping("/reset-password")
+    @GetMapping("/resetpassword")
     public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
-        String email = resetTokenMap.get(token);
+        Optional<Users> userOptional = userRepository.findByResetToken(token);
 
-        if (email == null) {
-            model.addAttribute("error", "Token invalid sau expirat.");
-            return "error";
+        if (userOptional.isPresent()) {
+            model.addAttribute("token", token);
+            model.addAttribute("activePage", "resetpassword");
+            return "resetpassword";
+        } else {
+            model.addAttribute("error", "Invalid or expired token");
+            return "mailresetpassword";
         }
-
-        model.addAttribute("token", token);
-        return "reset_password";
     }
 
-    @PostMapping("/reset-password")
+    @PostMapping("/resetpassword")
     public String processResetPassword(
             @RequestParam("token") String token,
-            @RequestParam("password") String password,
+            @RequestParam("newPassword") String newPassword,
             @RequestParam("confirmPassword") String confirmPassword,
-            Model model) {
+            Model model, RedirectAttributes redirectAttributes) {
 
-        String email = resetTokenMap.get(token);
-
-        if (email == null) {
-            model.addAttribute("error", "Token invalid sau expirat.");
-            return "error";
-        }
-
-        if (!password.equals(confirmPassword)) {
-            model.addAttribute("error", "Parolele nu corespund.");
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
             model.addAttribute("token", token);
-            return "reset_password";
+            return "resetpassword";
         }
 
-        Users user = userRepository.findByEmail(email).orElse(null);
+        Optional<Users> userOptional = userRepository.findByResetToken(token);
 
-        if (user == null) {
-            model.addAttribute("error", "Utilizatorul nu a fost găsit.");
-            return "error";
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            user.setPassword(passwordEncoder.encode(newPassword));
+            user.setResetToken(null);
+            userRepository.save(user);
+
+            redirectAttributes.addFlashAttribute("success", true);
+            redirectAttributes.addFlashAttribute("message", "Your password has been reset successfully. You can now login with your new password.");
+            return "redirect:/login";
+        } else {
+            model.addAttribute("error", "Invalid or expired token");
+            return "mailresetpassword";
         }
-
-        // Update password
-        user.setPassword(passwordEncoder.encode(password));
-        userRepository.save(user);
-
-        // Remove token
-        resetTokenMap.remove(token);
-
-        model.addAttribute("success", true);
-        model.addAttribute("message", "Parola a fost resetată cu succes. Te poți loga acum.");
-        return "login";
     }
 }

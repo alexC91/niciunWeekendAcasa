@@ -49,6 +49,7 @@ public class GreetingController {
         model.addAttribute("activePage", "register");
         return "signup";
     }
+
     @GetMapping("/map")
     public String map(Model model) {
         model.addAttribute("activePage", "map");
@@ -58,50 +59,18 @@ public class GreetingController {
     @GetMapping("/news")
     public String news(Model model) {
         model.addAttribute("activePage", "news");
-        return "news";}
+        return "news";
+    }
 
     @GetMapping("/privacy")
     public String privacy(Model model) {
         model.addAttribute("activePage", "privacy");
-        return "privacy";}
+        return "privacy";
+    }
 
     @GetMapping("/terms")
     public String terms(Model model) {
         model.addAttribute("activePage", "terms");
-        return "terms";}
-
-    @GetMapping("/profile")
-    public String profile(Model model) {
-        model.addAttribute("activePage", "profile");
-        return "profile";}
-
-    @GetMapping("/friends")
-    public String friends(Model model) {
-        model.addAttribute("activePage", "friends");
-        return "friends";}
-
-    @GetMapping("/profile_edit")
-    public String profile_edit(Model model) {
-        model.addAttribute("activePage", "profile_edit");
-        return "profile_edit";}
-
-    @GetMapping("/profile_photos")
-    public String profile_photos(Model model) {
-        model.addAttribute("activePage", "profile_photos");
-        return "profile_photos";}
-
-    @GetMapping("/profile_about")
-    public String profile_about(Model model) {
-        model.addAttribute("activePage", "profile_about");
-        return "profile_about";}
-
-    @GetMapping("/resetpassword")
-    public String resetpassword(Model model) {
-        model.addAttribute("activePage", "resetpassword");
-        return "resetpassword";}
-
-    @GetMapping("/mailresetpassword")
-    public String mailresetpassword(Model model) {
-        model.addAttribute("activePage", "mailresetpassword");
-        return "mailresetpassword";}
+        return "terms";
+    }
 }

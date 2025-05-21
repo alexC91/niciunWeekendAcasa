@@ -31,11 +31,12 @@
                   <div class="profile-header-cover"></div>
                   <div class="profile-header-content">
                     <div class="profile-header-img">
-                      <img id="mainProfileImage" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                      <img id="mainProfileImage" th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
+                      <img id="mainProfileImage" th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
                     </div>
                     <div class="profile-header-info">
-                      <h4 class="m-t-10 m-b-5">John Doe</h4>
-                      <p class="m-b-10">Web And Frontend Developer</p>
+                      <h4 class="m-t-10 m-b-5" th:if="${user != null}" th:text="${user.firstName + ' ' + user.lastName}">User Name</h4>
+                      <p class="m-b-10" th:if="${user != null && user.aboutMe != null}" th:text="${user.aboutMe}">User Description</p>
                       <div style="height: 50px;"></div>
                     </div>
                   </div>
@@ -51,120 +52,154 @@
               <div class="profile-content">
                 <div class="tab-content p-0">
                   <div class="tab-pane fade in active show" id="profile-about">
+                    <!-- Success and error messages -->
+                    <div th:if="${success}" class="alert alert-success" role="alert">
+                      <span th:text="${message}">Profile updated successfully</span>
+                    </div>
+                    <div th:if="${error}" class="alert alert-danger" role="alert">
+                      <span th:text="${message}">Error updating profile</span>
+                    </div>
+
                     <div class="table-responsive">
-                      <table class="table table-profile">
-                        <tbody>
+                      <form th:action="@{/update-profile}" method="post" enctype="multipart/form-data">
+                        <table class="table table-profile">
+                          <tbody>
+                          <tr>
+                            <td class="field">Profile Photo</td>
+                            <td>
+                              <input type="file" id="profilePhotoInput" name="file" accept="image/*" class="form-control-file">
+                              <div style="margin-top:10px;">
+                                <img id="photoPreview" th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="preview" style="max-width: 114px; max-height: 114px; border-radius: 4px; border: 1px solid #ccc;">
+                                <img id="photoPreview" th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="preview" style="max-width: 114px; max-height: 114px; border-radius: 4px; border: 1px solid #ccc;">
+                              </div>
+                              <input type="hidden" id="profilePhotoBase64" name="profilePhotoBase64">
+                              <small class="text-muted">Max size: 114x114 pixels</small>
+                              <div id="compressionStatus" style="display: none; margin-top: 5px; font-size: 12px; color: #666;"></div>
+                            </td>
+                          </tr>
 
-                        <tr>
-                          <td class="field">Profile Photo</td>
-                          <td>
-                            <input type="file" id="profilePhotoInput" accept="image/*" class="form-control-file">
-                            <div style="margin-top:10px;">
-                              <img id="photoPreview" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="preview" style="max-width: 114px; max-height: 114px; border-radius: 4px; border: 1px solid #ccc;">
-                            </div>
-                            <small class="text-muted">Max size: 114x114 pixels</small>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td class="field">Mobile</td>
-                          <td>
-                            <input type="tel" class="form-control input-inline input-xs" name="mobile" value="+1-(847)-367-8924">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="field">About Me</td>
-                          <td>
-                            <textarea class="form-control" name="about" rows="3" maxlength="300" placeholder="Write something about yourself...">This is my profile description.</textarea>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="field">Country/Region</td>
-                          <td>
-                            <select class="form-control input-inline input-xs" name="country" id="countrySelect">
-                              <option value="">Select Country</option>
-                              <option value="US">United States</option>
-                              <option value="RO">Romania</option>
-                              <option value="FR">France</option>
-                              <option value="DE">Germany</option>
-                              <option value="JP">Japan</option>
-                            </select>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="field">City</td>
-                          <td>
-                            <select class="form-control input-inline input-xs" name="city" id="citySelect">
-                              <option value="">Select City</option>
-                            </select>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="field">State</td>
-                          <td>
-                            <input type="text" class="form-control input-inline input-xs" name="state" placeholder="Enter State">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="field">Gender</td>
-                          <td>
-                            <select class="form-control input-inline input-xs" name="gender">
-                              <option value="male">Male</option>
-                              <option value="female">Female</option>
-                              <option value="other">Other</option>
-                            </select>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="field">Birthdate</td>
-                          <td>
-                            <select class="form-control input-inline input-xs" name="day">
-                              <script>for(let i=1;i<=31;i++)document.write(`<option value="${i}">${i}</option>`);</script>
-                            </select>
-                            -
-                            <select class="form-control input-inline input-xs" name="month">
-                              <script>
-                                const months = ["01","02","03","04","05","06","07","08","09","10","11","12"];
-                                months.forEach(m => document.write(`<option value="${m}">${m}</option>`));
-                              </script>
-                            </select>
-                            -
-                            <select class="form-control input-inline input-xs" name="year">
-                              <script>
-                                const yearNow = new Date().getFullYear();
-                                for(let y = yearNow; y >= 1900; y--){
-                                  document.write(`<option value="${y}">${y}</option>`);
-                                }
-                              </script>
-                            </select>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="field">Language</td>
-                          <td>
-                            <select class="form-control input-inline input-xs" name="language">
-                              <option value="en">English</option>
-                              <option value="ro">Romanian</option>
-                              <option value="fr">French</option>
-                              <option value="de">German</option>
-                              <option value="es">Spanish</option>
-                              <option value="zh">Chinese</option>
-                              <option value="ar">Arabic</option>
-                              <option value="ru">Russian</option>
-                              <option value="ja">Japanese</option>
-                            </select>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="field"></td>
-                          <td class="p-t-10 p-b-10">
-                            <button type="submit" class="btn btn-primary width-150">Update</button>
-                            <button type="button" class="btn btn-primary width-150 m-l-5" onclick="window.location.href='/profile';">Cancel</button>
-                          </td>
-                        </tr>
-
-                        </tbody>
-                      </table>
+                          <tr>
+                            <td class="field">Mobile</td>
+                            <td>
+                              <input type="tel" class="form-control input-inline input-xs" name="mobile" th:value="${user != null && user.mobile != null ? user.mobile : ''}">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="field">About Me</td>
+                            <td>
+                              <textarea class="form-control" name="about" rows="3" maxlength="300" placeholder="Write something about yourself..." th:text="${user != null && user.aboutMe != null ? user.aboutMe : ''}"></textarea>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="field">Country/Region</td>
+                            <td>
+                              <select class="form-control input-inline input-xs" name="country" id="countrySelect">
+                                <option value="">Select Country</option>
+                                <option value="US" th:selected="${user != null && user.country == 'US'}">United States</option>
+                                <option value="RO" th:selected="${user != null && user.country == 'RO'}">Romania</option>
+                                <option value="FR" th:selected="${user != null && user.country == 'FR'}">France</option>
+                                <option value="DE" th:selected="${user != null && user.country == 'DE'}">Germany</option>
+                                <option value="JP" th:selected="${user != null && user.country == 'JP'}">Japan</option>
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="field">City</td>
+                            <td>
+                              <select class="form-control input-inline input-xs" name="city" id="citySelect" th:data-current-city="${user != null ? user.city : ''}">
+                                <option value="">Select City</option>
+                                <!-- Cities will be populated via JavaScript -->
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="field">State</td>
+                            <td>
+                              <input type="text" class="form-control input-inline input-xs" name="state" placeholder="Enter State" th:value="${user != null && user.state != null ? user.state : ''}">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="field">Gender</td>
+                            <td>
+                              <select class="form-control input-inline input-xs" name="gender">
+                                <option value="male" th:selected="${user != null && user.gender == 'male'}">Male</option>
+                                <option value="female" th:selected="${user != null && user.gender == 'female'}">Female</option>
+                                <option value="other" th:selected="${user != null && user.gender == 'other'}">Other</option>
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="field">Birthdate</td>
+                            <td>
+                              <select class="form-control input-inline input-xs" name="day">
+                                <script th:inline="javascript">
+                                  /*<![CDATA[*/
+                                  var userDay = /*[[${user != null && user.birthdate != null ? user.birthdate.split('-')[0] : ''}]]*/ '';
+                                  for(let i=1; i<=31; i++) {
+                                    var day = i.toString();
+                                    var selected = (day === userDay) ? ' selected' : '';
+                                    document.write('<option value="' + day + '"' + selected + '>' + day + '</option>');
+                                  }
+                                  /*]]>*/
+                                </script>
+                              </select>
+                              -
+                              <select class="form-control input-inline input-xs" name="month">
+                                <script th:inline="javascript">
+                                  /*<![CDATA[*/
+                                  var userMonth = /*[[${user != null && user.birthdate != null ? user.birthdate.split('-')[1] : ''}]]*/ '';
+                                  const months = ["01","02","03","04","05","06","07","08","09","10","11","12"];
+                                  months.forEach(m => {
+                                    var selected = (m === userMonth) ? ' selected' : '';
+                                    document.write('<option value="' + m + '"' + selected + '>' + m + '</option>');
+                                  });
+                                  /*]]>*/
+                                </script>
+                              </select>
+                              -
+                              <select class="form-control input-inline input-xs" name="year">
+                                <script th:inline="javascript">
+                                  /*<![CDATA[*/
+                                  var userYear = /*[[${user != null && user.birthdate != null ? user.birthdate.split('-')[2] : ''}]]*/ '';
+                                  const yearNow = new Date().getFullYear();
+                                  for(let y = yearNow; y >= 1900; y--){
+                                    var year = y.toString();
+                                    var selected = (year === userYear) ? ' selected' : '';
+                                    document.write('<option value="' + year + '"' + selected + '>' + year + '</option>');
+                                  }
+                                  /*]]>*/
+                                </script>
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="field">Language</td>
+                            <td>
+                              <select class="form-control input-inline input-xs" name="language">
+                                <option value="en" th:selected="${user != null && user.language == 'en'}">English</option>
+                                <option value="ro" th:selected="${user != null && user.language == 'ro'}">Romanian</option>
+                                <option value="fr" th:selected="${user != null && user.language == 'fr'}">French</option>
+                                <option value="de" th:selected="${user != null && user.language == 'de'}">German</option>
+                                <option value="es" th:selected="${user != null && user.language == 'es'}">Spanish</option>
+                                <option value="zh" th:selected="${user != null && user.language == 'zh'}">Chinese</option>
+                                <option value="ar" th:selected="${user != null && user.language == 'ar'}">Arabic</option>
+                                <option value="ru" th:selected="${user != null && user.language == 'ru'}">Russian</option>
+                                <option value="ja" th:selected="${user != null && user.language == 'ja'}">Japanese</option>
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="field"></td>
+                            <td class="p-t-10 p-b-10">
+                              <button type="submit" class="btn btn-primary width-150">Update</button>
+                              <button type="button" class="btn btn-primary width-150 m-l-5" onclick="window.location.href='/profile';">Cancel</button>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                        <!-- CSRF token -->
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                      </form>
                     </div>
                   </div>
                 </div>

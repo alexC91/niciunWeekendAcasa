@@ -1,4 +1,5 @@
-
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="head :: head"></head>
 <body>
 
@@ -26,11 +27,12 @@
                         <div class="profile-header-cover"></div>
                         <div class="profile-header-content">
                             <div class="profile-header-img">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                                <img th:if="${user != null && user.profilePhoto != null}" th:src="${user.profilePhoto}" alt="">
+                                <img th:unless="${user != null && user.profilePhoto != null}" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
                             </div>
                             <div class="profile-header-info">
-                                <h4 class="m-t-10 m-b-5">Sean Ngu</h4>
-                                <p class="m-b-10">UXUI + Frontend Developer</p>
+                                <h4 class="m-t-10 m-b-5" th:if="${user != null}" th:text="${user.firstName + ' ' + user.lastName}">User Name</h4>
+                                <p class="m-b-10" th:if="${user != null && user.aboutMe != null}" th:text="${user.aboutMe}">User Description</p>
                                 <a th:href="@{/profile_edit}" class="btn btn-sm btn-info mb-2">Edit Profile</a>
                             </div>
                             <!-- END profile-header-info -->
@@ -55,39 +57,39 @@
                             <li class="title">PERSONAL INFORMATION</li>
                             <li>
                                 <div class="field">Mobile:</div>
-                                <div class="value">+1-(847)-367-8924</div>
+                                <div class="value" th:text="${user != null && user.mobile != null ? user.mobile : 'Not provided'}">+1-(847)-367-8924</div>
                             </li>
                             <li>
                                 <div class="field">Email</div>
-                                <div class="value">niciunweekendacasa@yahoo.com</div>
+                                <div class="value" th:text="${user != null ? user.email : 'Not provided'}">example@email.com</div>
                             </li>
                             <li>
                                 <div class="field">About Me:</div>
-                                <div class="value">This is my profile description.</div>
+                                <div class="value" th:text="${user != null && user.aboutMe != null ? user.aboutMe : 'Not provided'}">This is my profile description.</div>
                             </li>
                             <li>
                                 <div class="field">Country/Region:</div>
-                                <div class="value">United States</div>
+                                <div class="value" th:text="${user != null && user.country != null ? user.country : 'Not provided'}">United States</div>
                             </li>
                             <li>
                                 <div class="field">City:</div>
-                                <div class="value">New York</div>
+                                <div class="value" th:text="${user != null && user.city != null ? user.city : 'Not provided'}">New York</div>
                             </li>
                             <li>
                                 <div class="field">State:</div>
-                                <div class="value">California</div>
+                                <div class="value" th:text="${user != null && user.state != null ? user.state : 'Not provided'}">California</div>
                             </li>
                             <li>
                                 <div class="field">Gender:</div>
-                                <div class="value">Male</div>
+                                <div class="value" th:text="${user != null && user.gender != null ? user.gender : 'Not provided'}">Male</div>
                             </li>
                             <li>
                                 <div class="field">Birthdate:</div>
-                                <div class="value">1 - 01 - 2025</div>
+                                <div class="value" th:text="${user != null && user.birthdate != null ? user.birthdate : 'Not provided'}">1 - 01 - 2025</div>
                             </li>
                             <li>
                                 <div class="field">Language:</div>
-                                <div class="value">English</div>
+                                <div class="value" th:text="${user != null && user.language != null ? user.language : 'Not provided'}">English</div>
                             </li>
                         </ul>
                     </div>
