@@ -1,18 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-
-    <changeSet id="106" author="Mara" dbms="mysql">
-        <createTable tableName="sent_email">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="recipient" type="VARCHAR(255)"/>
-            <column name="subject" type="VARCHAR(255)"/>
-            <column name="content" type="TEXT"/>
-            <column name="sent_at" type="DATETIME"/>
-        </createTable>
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="120.12" author=" M̶a̶r̶a̶  Iustin si Alex" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="sent_email"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE sent_email (
+            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            recipient VARCHAR(255),
+            subject VARCHAR(255),
+            content TEXT,
+            sent_at DATETIME
+            )
+        </sql>
     </changeSet>
 </databaseChangeLog>

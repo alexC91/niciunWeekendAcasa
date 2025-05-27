@@ -6,7 +6,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <!-- Insert demo users -->
-    <changeSet id="insert-users-2" author="tu">
+    <changeSet id="insert-users-2" author="tu" dbms="mysql">
         <insert tableName="app_users">
             <column name="last_name" value="Popescu"/>
             <column name="first_name" value="Ana"/>

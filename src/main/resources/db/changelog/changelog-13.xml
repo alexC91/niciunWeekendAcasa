@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-    <changeSet id="2025.05.14.9" author="Alex" dbms="mysql">
+    <changeSet id="2025.115" author="Alex" dbms="mysql">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="hist_regions"/>
@@ -14,11 +14,10 @@
             CREATE TABLE hist_regions(
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(100) NOT NULL
-
             )
         </sql>
     </changeSet>
-         <changeSet id="2025.04.23.105" author="Andrei" dbms="mysql">
+         <changeSet id="2025.114" author="Andrei" dbms="mysql">
             <sql>
                 DELETE FROM hist_regions;
                 INSERT INTO hist_regions (name)
@@ -35,22 +34,22 @@
 
             </sql>
         </changeSet>
-    <changeSet id="2025.05.14.10" author="Alex" dbms="mysql">
+    <changeSet id="2025.112" author="Alex" dbms="mysql">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="ethno_regions"/>
             </not>
         </preConditions>
         <sql>
-            CREATE TABLE ethno(
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            FOREIGN KEY (hist_region_id) REFERENCES hist_regions(id)
-
+            CREATE TABLE ethno_regions (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(100) NOT NULL,
+                hist_region_id INT NOT NULL,
+                FOREIGN KEY (hist_region_id) REFERENCES hist_regions(id)
             )
         </sql>
     </changeSet>
-        <changeSet id="2025.04.23.17" author="Andrei" dbms="mysql">
+        <changeSet id="2025.113" author="Andrei" dbms="mysql">
             <sql>
                 DELETE FROM ethno_regions;
                 INSERT INTO ethno_regions (name, hist_region_id)
@@ -69,7 +68,7 @@
                 ('Tinutul Muscelului', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
                 ('Valea Topologului', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
                 ('Tinutul Argesului', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
-                ('Tara Lovistei', (SELECT id FROM hist_regions WHERE name = 'Muntenia/Oltenia')),
+                ('Tara Lovistei', (SELECT id FROM hist_regions WHERE name = 'Muntenia')),
                 ('Gorj', (SELECT id FROM hist_regions WHERE name = 'Oltenia')),
                 ('Romanati', (SELECT id FROM hist_regions WHERE name = 'Oltenia')),
                 ('Mehedinti', (SELECT id FROM hist_regions WHERE name = 'Oltenia')),
@@ -87,12 +86,12 @@
                 ('Tinutul Botosanilor', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
                 ('Tinutul Iesilor', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
                 ('Valea Bistritei', (SELECT id FROM hist_regions WHERE name = 'Moldova')),
-                ('Tara Dornelor', (SELECT id FROM hist_regions WHERE name = 'Moldova/Bucovina/Ardeal')),
+                ('Tara Dornelor', (SELECT id FROM hist_regions WHERE name = 'Bucovina')),
                 ('Tinutul Sucevei', (SELECT id FROM hist_regions WHERE name = 'Bucovina')),
                 ('Tinutul Radautiului', (SELECT id FROM hist_regions WHERE name = 'Bucovina')),
                 ('Tinutul Humorului', (SELECT id FROM hist_regions WHERE name = 'Bucovina')),
                 ('Tinutul Campulung', (SELECT id FROM hist_regions WHERE name = 'Bucovina')),
-                ('Hutulscina', (SELECT id FROM hist_regions WHERE name = 'Bucovina/Maramures')),
+                ('Hutulscina', (SELECT id FROM hist_regions WHERE name = 'Maramures')),
                 ('Tara Maramuresului', (SELECT id FROM hist_regions WHERE name = 'Maramures')),
                 ('Giurgeu', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),
                 ('Tinutul Secuiesc', (SELECT id FROM hist_regions WHERE name = 'Ardeal')),

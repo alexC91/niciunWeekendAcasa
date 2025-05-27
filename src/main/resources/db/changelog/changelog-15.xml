@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="120.1335" author=" M̶a̶r̶a̶  Iustin si Alex" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="locations"/>
+            </not>
+        </preConditions>
+        <sql>
+        CREATE TABLE `locations` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) NOT NULL,
+            `lat` decimal(10,7) NOT NULL,
+            `lon` decimal(10,7) NOT NULL,
+            `city_id` int NOT NULL,
+            `county_id` int NOT NULL,
+            `geo_area_id` int NOT NULL,
+            `geo_unit_id` int NOT NULL,
+            `geo_unit2_id` int NOT NULL,
+            `origin_id` int NOT NULL,
+            `time_period` varchar(255) DEFAULT NULL,
+            `type_id` int NOT NULL,
+            `type2` varchar(255) DEFAULT NULL,
+            `status_id` int NOT NULL,
+            `hist_region_id` int NOT NULL,
+            `ethno_region_id` int NOT NULL,
+            PRIMARY KEY (`id`),
+            KEY `city_id` (`city_id`),
+            KEY `county_id` (`county_id`),
+            KEY `ethno_region_id` (`ethno_region_id`),
+            KEY `geo_area_id` (`geo_area_id`),
+            KEY `geo_unit_id` (`geo_unit_id`),
+            KEY `geo_unit2_id` (`geo_unit2_id`),
+            KEY `hist_region_id` (`hist_region_id`),
+            KEY `origin_id` (`origin_id`),
+            KEY `status_id` (`status_id`),
+            KEY `type_id` (`type_id`),
+            CONSTRAINT `locations_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`),
+            CONSTRAINT `locations_ibfk_10` FOREIGN KEY (`type_id`) REFERENCES `types` (`id`),
+            CONSTRAINT `locations_ibfk_2` FOREIGN KEY (`county_id`) REFERENCES `counties` (`id`),
+            CONSTRAINT `locations_ibfk_3` FOREIGN KEY (`ethno_region_id`) REFERENCES `ethno_regions` (`id`),
+            CONSTRAINT `locations_ibfk_4` FOREIGN KEY (`geo_area_id`) REFERENCES `geo_areas` (`id`),
+            CONSTRAINT `locations_ibfk_5` FOREIGN KEY (`geo_unit_id`) REFERENCES `geo_units` (`id`),
+            CONSTRAINT `locations_ibfk_6` FOREIGN KEY (`geo_unit2_id`) REFERENCES `geo_units_2` (`id`),
+            CONSTRAINT `locations_ibfk_7` FOREIGN KEY (`hist_region_id`) REFERENCES `hist_regions` (`id`),
+            CONSTRAINT `locations_ibfk_8` FOREIGN KEY (`origin_id`) REFERENCES `origins` (`id`),
+            CONSTRAINT `locations_ibfk_9` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="111232" author="NU A̶n̶d̶r̶e̶i̶ ̶/̶ T̶h̶e̶o̶d̶o̶r̶a̶" dbms="mysql">
+        <sql>
+            
+        </sql>
+    </changeSet>    
+</databaseChangeLog>

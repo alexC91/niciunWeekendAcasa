@@ -9,8 +9,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import com.mysql.cj.jdbc.Driver;
 
-import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication(scanBasePackages = {"com.services",
@@ -50,11 +50,10 @@ public class DemoApplication {
 	}
 
 	public static SimpleDriverDataSource getConnection(SimpleDriverDataSource dataSource) throws ClassNotFoundException {
-		dataSource.setDriverClass(com.microsoft.sqlserver.jdbc.SQLServerDriver.class);
-		//A se scimba  "jdbc:sqlserver://localhost:1433;  cu "jdbc:sqlserver://localhost:52122;
-		dataSource.setUrl("jdbc:sqlserver://localhost:1433; databaseName=niciunWeekendAcasa;trustServerCertificate=false;encrypt=false");
-		dataSource.setUsername("root");
-		dataSource.setPassword("admin");
-		return dataSource;
+    dataSource.setDriverClass(Driver.class);
+    dataSource.setUrl("jdbc:mysql://localhost:3306/niciunWeekendAcasa?useSSL=false&allowPublicKeyRetrieval=true");
+    dataSource.setUsername("root");
+    dataSource.setPassword("1234"); // sau parola corectă
+    return dataSource;
 	}
 }
