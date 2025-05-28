@@ -45,10 +45,15 @@ public class SecurityConfig {
                                 "/error/**",
                                 "/css/**",
                                 "/js/**",
-                                "/images/**"
+                                "/images/**",
+                                "/atractie",
+                                "/fonts/**",
+                                "flaticon/**",
+                                "/scss/**",
+                                "/favicon.ico"
                         ).permitAll()
                         // everything else requires authentication
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 // 2) Form-login customization
                 .formLogin(form -> form
