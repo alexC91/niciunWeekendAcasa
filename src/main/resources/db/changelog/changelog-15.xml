@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-    <changeSet id="120.1335" author=" M̶a̶r̶a̶  Iustin si Alex" dbms="mysql">
+    <changeSet id="120.81335" author=" M̶a̶r̶a̶  Iustin si Alex" dbms="mysql">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="locations"/>
@@ -52,9 +52,29 @@
             );
         </sql>
     </changeSet>
-    <changeSet id="111232" author="NU A̶n̶d̶r̶e̶i̶ ̶/̶ T̶h̶e̶o̶d̶o̶r̶a̶" dbms="mysql">
+    <changeSet id="11132" author="NU A̶n̶d̶r̶e̶i̶ ̶/̶ T̶h̶e̶o̶d̶o̶r̶a̶" dbms="mysql">
         <sql>
-            
+            INSERT INTO `locations` (
+            `name`, `lat`, `lon`, `city_id`, `county_id`, `geo_area_id`, `geo_unit_id`, 
+            `geo_unit2_id`, `origin_id`, `time_period`, `type_id`, `type2`, `status_id`, 
+            `hist_region_id`, `ethno_region_id`
+            ) VALUES (
+            'Castelul Bran',      
+            45.51498024264131,             
+            25.3671055353721,            
+            (SELECT id FROM cities WHERE name = 'Brasov'),
+            (SELECT id FROM counties WHERE name = 'Brasov'),
+            (SELECT id FROM geo_areas WHERE name = 'Munte'),
+            (SELECT id FROM geo_units WHERE name = 'Carpatii Meridionali'),
+            (SELECT id FROM geo_units_2 WHERE name = 'Muntii Bucegi'),
+            (SELECT id FROM origins WHERE name = 'Antropic'),
+            (SELECT id FROM periods WHERE name = 'Medieval'),
+            (SELECT id FROM types WHERE name = 'Edificiu Turistic'),
+            (SELECT id FROM types_2 WHERE name = 'Castel'),
+            (SELECT id FROM statuses WHERE name = 'Buna'),
+            (SELECT id FROM hist_regions WHERE name = 'Ardeal'),
+            (SELECT id FROM ethno_regions WHERE name = 'Tara Barsei')
+            );
         </sql>
     </changeSet>    
 </databaseChangeLog>
