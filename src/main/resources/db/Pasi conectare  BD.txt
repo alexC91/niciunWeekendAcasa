@@ -1,0 +1,22 @@
+Cum stii ce port ai?
+1. Win + R si scrieti "SQLServerManager16.msc"
+2. Protocol for MSSQLSERVER
+3. TCP/IP (Trebuie sa fie enabled)
+4. IP Addresses de sus si dai scroll down pana la IPAII si vedeti la TCP Port.
+
+Unde trebuie sa modificati portul?
+Portul trebuie inlocuit in DemoApplication.java si in application.properties in sintaxa "jdbc:sqlserver://localhost:1433"
+
+
+Eroarea x: 
+Pentru asta trebuie sa scri "Services" in start si veti cauta "SQL Server (MSSQLSERVER)" si veti da click dreapta restart
+
+Creare User BD:
+1. In SQL Server, in Security -> Logins veti da click dreapta "New Login"
+2. La Login name puneti "root" si la parola "admin"
+3. Bifati SQL Server Authentication
+4. Debifati toate cele 3 casute (Enforce pass, inclusiv si user must)
+5. Din meniul din stanga la Server Roles, bifati toate casutele
+6. Din nmeniul din stanga la User Mapping, bifati toate casutele
+7. Dupa dati disconnect si va conectati iarasi
+8. 
